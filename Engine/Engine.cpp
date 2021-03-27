@@ -69,8 +69,8 @@ bool Engine::nextFrame()
         if (objects[i].second == true)
             for (const auto& texture : objects[i].first->_textures)
                 if (texture.visible == true)
-                    _renderer.render(_window, objects[i].first->position(), texture.offsetPosition, texture.textureID,
-                                     objects[i].first->angle(), texture.angle, texture.textureOffset, texture.textureScale);
+                    _renderer.render(Renderer::RenderSettings(_window, objects[i].first->position(), texture.offsetPosition, texture.textureID,
+                                     objects[i].first->angle(), texture.angle, texture.textureOffset, texture.textureScale, sf::Color(sf::Color::White)));
     }
     GameObject::clearVector();
 

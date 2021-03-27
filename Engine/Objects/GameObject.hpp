@@ -5,6 +5,7 @@
 #include "GameInfo.hpp"
 #include <vector>
 #include <string>
+#include <tuple>
 
 class GameObject
 {
@@ -19,6 +20,7 @@ public:
         Vector2f textureScale;
         Vector2i textureOffset;
         bool visible;
+        std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> color;
     };
 
     GameObject();
