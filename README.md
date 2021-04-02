@@ -110,4 +110,8 @@ The project includes a .pro file, which makes it easy to compile it in *QT Creat
 ## Credits
 All of the code was made by Bartosz Głowacki, the owner of this GitHub repo. \
 All the graphical assets were created by Sławomir Nowaczewski. \
+In game music was created by: \
+Jakub Daković, Jakub Klimkiewicz and Kacper Banach (*Fobia* band - **All rights reserved)** \
+Main menu music by Sławomir Nowaczewski \
+Voice acting by Oskar Tuchowski \
 This README file was edited by Ari Kaczmarek.
