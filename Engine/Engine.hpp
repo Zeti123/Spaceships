@@ -13,6 +13,8 @@ class PhysicalObject;
 class Engine
 {
 public:
+    using ColorType = std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>;
+
     Engine(const Engine& e) = delete;
     static Engine& Instance();
     static SoundPlayer& soundPlayer();

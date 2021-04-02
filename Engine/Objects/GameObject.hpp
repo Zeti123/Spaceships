@@ -26,6 +26,7 @@ public:
     GameObject();
     GameObject(const Position2D& position);
     GameObject(const GameObject& obj) = delete;
+    GameObject(GameObject&& obj) = delete;
     virtual ~GameObject();
     virtual void onFrame() = 0;
 

@@ -5,6 +5,7 @@ SimpleButton::SimpleButton(Vector2f position, size_t texture, Vector2i size, std
     :UIObject(Position2D(position, size)), _texture(texture), _normalColor(normalColor), _draggedColor(draggedColor), _clickedColor(clickedColor)
 {
     addTexture(_texture);
+    this->texture(0).color = _normalColor;
 }
 
 void SimpleButton::setCallFunction(std::function<void()> call)

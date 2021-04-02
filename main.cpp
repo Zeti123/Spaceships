@@ -38,12 +38,24 @@ int main()
                                          "hp_bar_center.png",
                                          "hp_bar_empty.png",
                                          "hp_bar_shield.png",
-                                         "button_normal.png",                // menu bar buttons         28 - 33
+                                         "button_normal.png",                // menu buttons, bars       28 - 45
                                          "button_dragged.png",
                                          "button_clicked.png",
                                          "label_start.png",
                                          "label_options.png",
-                                         "label_exit.png"};
+                                         "label_exit.png",
+                                         "button_level1.png",
+                                         "button_level2.png",
+                                         "button_level3.png",
+                                         "button_level4.png",
+                                         "button_level5.png",
+                                         "button_back.png",
+                                         "progressbar_background.png",
+                                         "progressbar_bar.png",
+                                         "progressbar_ball.png",
+                                         "master_volume.png",
+                                         "music_volume.png",
+                                         "sound_volume.png"};
 
     std::string soundsPath = "../Spaceships/Game/Resources/Sounds/";
     std::vector<std::string> sounds = {"hit.wav",

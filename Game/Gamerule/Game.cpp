@@ -11,26 +11,37 @@
 #include <iostream>
 
 Game::Game()
-    :_level(LevelManager::Instance()), _player(new Player()), _state(State::MENU)
+    :_level(LevelManager::Instance()), _player(new Player()), _state(State::MENU), _current_music("../Spaceships/Game/Resources/Sounds/main_menu.ogg")
 {
     _menu.openMenu();
 }
 
 void Game::onFrame()
 {
+    if (!Engine::soundPlayer().isMusicPlayed())
+                Engine::Instance().soundPlayer().playMusic(_current_music);
+
+    const std::string musicPath = "../Spaceships/Game/Resources/Sounds/";
     if (_state == State::MENU)
     {
         if (!_menu.isActive())
         {
             _state = State::GAME_PLAY;
+            Engine::soundPlayer().stopMusic();
             switch (_menu.loadedLevel())
             {
             case 0:
-                loadLevel1(); break;
+                loadLevel1();
+                _current_music = musicPath + "TEN_TIMES_BETTER_THAN_YOU_FOBIA_INSTRUMENTAL.wav";
+                break;
             case 1:
-                loadLevel2(); break;
+                loadLevel2();
+                _current_music = musicPath + "BACK_IN_TIME_FOBIA_INSTRUMENTAL.wav";
+                break;
             case 2:;
-                loadLevel3(); break;
+                loadLevel3();
+                _current_music = musicPath + "ALKOMECH_FOBIA_INSTRUMENTAL.wav";
+                break;
             }
         }
     }
@@ -38,6 +49,8 @@ void Game::onFrame()
     {
         if (!_level.isActive())
         {
+            Engine::soundPlayer().stopMusic();
+            _current_music = musicPath + "main_menu.ogg";
             _state = State::MENU;
             _player->setActive(false);
             _menu.openLevelsMenu();
@@ -200,12 +213,12 @@ public:
 
     Vector2f operator()(const Spaceship&)
     {
-        size_t index = -1;
+        size_t index = UINT64_MAX;
         for (size_t i = 0; i < _ships.size(); i++)
             if (_num == _ships[i])
                 index = i;
 
-        if (index == -1)
+        if (index == UINT64_MAX)
         {
             index = _ships.size();
             _ships.push_back(_num);

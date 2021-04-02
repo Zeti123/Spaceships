@@ -69,8 +69,11 @@ bool Engine::nextFrame()
         if (objects[i].second == true)
             for (const auto& texture : objects[i].first->_textures)
                 if (texture.visible == true)
+                {
+                    sf::Color c = sf::Color(std::get<0>(texture.color), std::get<1>(texture.color), std::get<2>(texture.color), std::get<3>(texture.color));
                     _renderer.render(Renderer::RenderSettings(_window, objects[i].first->position(), texture.offsetPosition, texture.textureID,
-                                     objects[i].first->angle(), texture.angle, texture.textureOffset, texture.textureScale, sf::Color(sf::Color::White)));
+                                     objects[i].first->angle(), texture.angle, texture.textureOffset, texture.textureScale, sf::Color(c)));
+                }
     }
     GameObject::clearVector();
 
@@ -236,7 +239,7 @@ void Engine::updateGameInfo()
     static int licznik = 0;
     licznik++;
     if (licznik%100 == 0)
-        cout<<1.f/_time.asSeconds()<<" - "<<GameObject::getObjects().size()<<endl;
+        cout<<1.f/_time.asSeconds()<<" - "<<GameObject::getObjects().size()<<" "<<UIObject::getObjects().size()<<endl;
     _clock.restart();
 
 }

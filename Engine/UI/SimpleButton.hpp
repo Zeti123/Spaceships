@@ -9,8 +9,10 @@ class SimpleButton : public UIObject
     friend class Window;
 
 public:
-    SimpleButton(Vector2f position, size_t texture, Vector2i size, std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> normalColor = {0, 0, 0, 0},
-                 std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> draggedColor = {20, 20, 20, 0}, std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> clickedColor = {40, 40, 40, 0});
+    SimpleButton(Vector2f position, size_t texture, Vector2i size,
+                 std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> normalColor = {255, 255, 255, 255},
+                 std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> draggedColor = {200, 200, 200, 255},
+                 std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> clickedColor = {150, 150, 150, 255});
     void setCallFunction(std::function<void()> call);
 
 private:

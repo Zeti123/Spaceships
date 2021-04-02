@@ -24,7 +24,7 @@ PhysicalObject::~PhysicalObject()
     }
 }
 
-void PhysicalObject::onCollide(PhysicalObject* with) {}
+void PhysicalObject::onCollide(PhysicalObject*) {}
 
 bool PhysicalObject::isCollideWith(PhysicalObject* with)
 {

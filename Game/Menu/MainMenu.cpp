@@ -29,10 +29,11 @@ void MainMenu::closeMenu()
 
 void MainMenu::openOptions()
 {
-    _masterVolume = new Slider(Vector2f(180, 219), 6, 26, 30, 26, Vector2f(47, 70), Vector2f(47, 70), Vector2i(232, 282), Vector2i(137, 30), Vector2i(40, 35));
-    _musicVolume  = new Slider(Vector2f(580, 219), 6, 26, 30, 26, Vector2f(47, 70), Vector2f(47, 70), Vector2i(232, 282), Vector2i(137, 30), Vector2i(40, 35));
-    _soundVolume  = new Slider(Vector2f(980, 219), 6, 26, 30, 26, Vector2f(47, 70), Vector2f(47, 70), Vector2i(232, 282), Vector2i(137, 30), Vector2i(40, 35));
-    _back         = new Button(Vector2f(1000, 700), 6, 7, 8, 26, Vector2f(47, 70), Vector2i(232, 282));
+    int posx = (GameInfo::resolution().x - 500) / 2;
+    _masterVolume = new Slider(Vector2f(posx, 50), 40, 41, 42, 43, Vector2f(5, 5), Vector2f(72, 110), Vector2i(500, 150), Vector2i(356, 12), Vector2i(44, 44));
+    _musicVolume  = new Slider(Vector2f(posx, 250), 40, 41, 42, 44, Vector2f(5, 5), Vector2f(72, 110), Vector2i(500, 150), Vector2i(356, 12), Vector2i(44, 44));
+    _soundVolume  = new Slider(Vector2f(posx, 450), 40, 41, 42, 45, Vector2f(5, 5), Vector2f(72, 110), Vector2i(500, 150), Vector2i(356, 12), Vector2i(44, 44));
+    _back         = new SimpleButton(Vector2f(0, GameInfo::resolution().y - 45), 39, Vector2i(150, 45));
 
     _masterVolume->setCallFunction(std::bind(&MainMenu::masterVolume, this, std::placeholders::_1));
     _musicVolume->setCallFunction(std::bind(&MainMenu::musicVolume, this, std::placeholders::_1));
@@ -48,6 +49,11 @@ void MainMenu::openOptions()
     _musicVolume->setValue(Engine::Instance().soundPlayer().getMusicVolume());
     _soundVolume->setValue(Engine::Instance().soundPlayer().getSoundVolume());
 
+    _masterVolume->setId("master");
+    _musicVolume->setId("music");
+    _soundVolume->setId("sound");
+    _back->setId("back");
+
     _active = true;
 
 }
@@ -62,15 +68,17 @@ void MainMenu::closeOptions()
 
 void MainMenu::openLevelsMenu()
 {
+    int offset = 50;
+    int startPointX = (GameInfo::resolution().x - (300 + offset)*_levels.size()) / 2;
     for (size_t i = 0; i < _levels.size(); i++)
     {
-        _levels[i] = new Button(Vector2f(200 + 300 * i, 300), 6, 7, 8, 26, Vector2f(47, 70), Vector2i(232, 282));
+        _levels[i] = new SimpleButton(Vector2f(startPointX + (300 + offset) * i, 300), 34 + i, Vector2i(300, 90));
         _levels[i]->setCallFunction([this, i](){ _loadedLevel = i; _active = false; closeLevelsMenu(); });
         _levels[i]->setActive(true);
 
         _active = true;
     }
-    _back = new Button(Vector2f(500, 500), 6, 7, 8, 26, Vector2f(47, 70), Vector2i(232, 282));
+    _back = new SimpleButton(Vector2f(0, GameInfo::resolution().y - 45), 39, Vector2i(150, 45));
     _back->setCallFunction([this](){ closeLevelsMenu(); openMenu(); });
     _back->setActive(true);
 }

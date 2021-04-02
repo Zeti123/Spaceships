@@ -2,6 +2,7 @@
 #define MAINMENU_H
 
 #include "Button.hpp"
+#include "SimpleButton.hpp"
 #include "Slider.hpp"
 
 class MainMenu
@@ -35,10 +36,10 @@ private:
     Slider* _soundVolume;
 
     // levels menu
-    std::array<Button*, 3> _levels;
+    std::array<SimpleButton*, 3> _levels;
 
     //general use
-    Button* _back;
+    SimpleButton* _back;
     bool _active;
     size_t _loadedLevel;
 };

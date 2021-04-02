@@ -41,10 +41,12 @@ SOURCES += \
         Engine/Objects/UIObject.cpp \
         Engine/Position2D.cpp \
         Engine/UI/Button.cpp \
+        Engine/UI/SimpleButton.cpp \
         Engine/UI/Slider.cpp \
         Engine/Vector2f.cpp \
         Engine/Vector2i.cpp \
         Game/Gamerule/Game.cpp \
+        Game/Gamerule/GameState.cpp \
         Game/Gamerule/LevelInfo.cpp \
         Game/Gamerule/LevelManager.cpp \
         Game/Gamerule/LevelObjects/Bullets/Bullet.cpp \
@@ -120,10 +122,12 @@ HEADERS += \
     Engine/Objects/UIObject.hpp \
     Engine/Position2D.hpp \
     Engine/UI/Button.hpp \
+    Engine/UI/SimpleButton.hpp \
     Engine/UI/Slider.hpp \
     Engine/Vector2f.hpp \
     Engine/Vector2i.hpp \
     Game/Gamerule/Game.hpp \
+    Game/Gamerule/GameState.hpp \
     Game/Gamerule/ILevelObject.hpp \
     Game/Gamerule/LevelInfo.hpp \
     Game/Gamerule/LevelManager.hpp \

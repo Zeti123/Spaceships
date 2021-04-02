@@ -6,7 +6,7 @@
 
 Player::Player()
     :Spaceship(100, 150), _timeToShot(0),
-      _bar(Vector2f(0, 600-12), 26, 25, 27, Vector2i(13, 6), this), _lives(Vector2f(0, 565), this),
+      _bar(Vector2f(0, GameInfo::resolution().y-12), 26, 25, 27, Vector2i(13, 6), this), _lives(Vector2f(0, GameInfo::resolution().y - 35), this),
       _alive(true), _superShots(0)
 {
     auto func = [](Bullet& a) -> void

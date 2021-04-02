@@ -91,8 +91,8 @@ void PickUp::onCollide(PhysicalObject* with)
             player->superShots();
             break;
         }
+        kill();
     }
-    kill();
 }
 
 void PickUp::kill()

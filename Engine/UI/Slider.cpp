@@ -6,12 +6,13 @@ Slider::Slider(Vector2f position, size_t background, size_t slider, size_t circl
     :UIObject(Position2D(position, size)), _sliderOffset(sliderOffset), _sliderSize(sliderSize),  _ballSize(ballSize), _value(0)
 {
     addTexture(background);
-    addTexture(label);
     addTexture(slider);
     addTexture(circle);
+    addTexture(label);
 
-    texture(1).offsetPosition = labelOffset;
-    texture(3).offsetPosition = _sliderOffset + Vector2f(_value * _sliderSize.x - _ballSize.x/2, _sliderSize.y/2 - _ballSize.y/2);
+    texture(1).offsetPosition = sliderOffset;
+    texture(2).offsetPosition = _sliderOffset + Vector2f(_value * _sliderSize.x - _ballSize.x/2, _sliderSize.y/2 - _ballSize.y/2);
+    texture(3).offsetPosition = labelOffset;
 }
 
 void Slider::setCallFunction(std::function<void(float)> call)
@@ -25,7 +26,7 @@ void Slider::setValue(float value)
         throw "value should be from 0 to 1";
 
     _value = value;
-    texture(3).offsetPosition = _sliderOffset + Vector2f(_value * _sliderSize.x - _ballSize.x/2, _sliderSize.y/2 - _ballSize.y/2);
+    texture(2).offsetPosition = _sliderOffset + Vector2f(_value * _sliderSize.x - _ballSize.x/2, _sliderSize.y/2 - _ballSize.y/2);
 }
 
 void Slider::onStartDrag(){}
@@ -44,7 +45,7 @@ void Slider::onMouseClick()
         if (_value != oldValue)
         {
             _call(_value);
-            texture(3).offsetPosition = _sliderOffset + Vector2f(_value * _sliderSize.x - _ballSize.x/2, _sliderSize.y/2 - _ballSize.y/2);
+            texture(2).offsetPosition = _sliderOffset + Vector2f(_value * _sliderSize.x - _ballSize.x/2, _sliderSize.y/2 - _ballSize.y/2);
         }
     }
 }

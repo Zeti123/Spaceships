@@ -9,7 +9,7 @@ UIObject::UIObject()
 }
 
 UIObject::UIObject(const Position2D& position)
-    :GameObject(position), _positionInVector(_allObjects.size())
+    :GameObject(position), _positionInVector(_allObjects.size()), _dragged(0), _clicked(0)
 {
     _allObjects.push_back(std::make_pair(this, true));
 }
@@ -30,8 +30,9 @@ void UIObject::clearVector()
     {
         if (_allObjects[i].second == false)
         {
-            std::swap(_allObjects[i], _allObjects[_allObjects.size() - 1]);
-            _allObjects[i].first->_positionInVector = i;
+            std::swap(_allObjects[i], _allObjects.back());
+            if (_allObjects[i].second == true)
+                _allObjects[i].first->_positionInVector = i;
             _allObjects.pop_back();
             i--;
         }

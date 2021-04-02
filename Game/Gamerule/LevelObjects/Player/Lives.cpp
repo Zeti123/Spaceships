@@ -58,5 +58,5 @@ void Lives::addLife()
 
 void Lives::reset()
 {
-    _lives = 10;
+    _lives = 3;
 }

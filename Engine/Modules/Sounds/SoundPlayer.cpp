@@ -44,6 +44,7 @@ void SoundPlayer::resumeAllSounds()
 
 void SoundPlayer::playMusic(const std::string& song, float volume)
 {
+    _music.stop();
     _music.openFromFile(song);
     _currentMusicVolume = volume;
     _music.setVolume(volume * _musicVolume * _masterVolume);
@@ -60,6 +61,11 @@ void SoundPlayer::resumeMusic()
 {
     if (_music.getStatus() == sf::Music::Status::Stopped)
         _music.play();
+}
+
+bool SoundPlayer::isMusicPlayed() const
+{
+    return _music.getStatus() == sf::Music::Status::Playing;
 }
 
 void SoundPlayer::setMasterVolume(float volume)

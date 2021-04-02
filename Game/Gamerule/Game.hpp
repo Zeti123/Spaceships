@@ -26,6 +26,7 @@ private:
     LevelManager& _level;
     Player* _player;
     State _state;
+    std::string _current_music;
 };
 
 #endif // GAME_HPP

@@ -22,7 +22,7 @@ GameObject::~GameObject()
 
 void GameObject::addTexture(size_t textureID)
 {
-    _textures.push_back({Vector2f(0, 0), 0, textureID, Vector2f(1, 1), Vector2i(0, 0), true, std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>(0, 0, 0, 0)});
+    _textures.push_back({Vector2f(0, 0), 0, textureID, Vector2f(1, 1), Vector2i(0, 0), true, std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>(255, 255, 255, 255)});
 }
 
 void GameObject::addTexture(const Texture& texture)
