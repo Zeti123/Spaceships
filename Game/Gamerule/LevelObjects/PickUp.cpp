@@ -40,19 +40,19 @@ PickUp::PickUp(Vector2f position, Type type)
     switch (_type)
     {
     case Type::Hp:
-        addTexture(20);
+        addTexture(19);
         break;
 
     case Type::Life:
-        addTexture(21);
-        break;
-
-    case Type::Shild:
         addTexture(22);
         break;
 
+    case Type::Shild:
+        addTexture(20);
+        break;
+
     case Type::SuperShots:
-        addTexture(23);
+        addTexture(21);
         break;
     }
     texture(0).visible = true;
