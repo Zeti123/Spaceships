@@ -109,7 +109,7 @@ void MainMenu::musicVolume(float volume)
 
 void MainMenu::soundVolume(float volume)
 {
-    Engine::Instance().soundPlayer().setSoundVolume(volume * 100);
+    Engine::Instance().soundPlayer().setSoundVolume(volume);
 }
 
 bool MainMenu::isActive() const

@@ -79,7 +79,7 @@ void Bullet::onCollide(PhysicalObject *with)
     }
     if (!_alive)
     {
-        Engine::soundPlayer().playSound(0, 80);
+        Engine::soundPlayer().playSound(0, 100);
         LevelManager::Instance().addObject(new Bullet::Animation(position()));
     }
 }

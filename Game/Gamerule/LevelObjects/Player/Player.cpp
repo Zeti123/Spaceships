@@ -51,10 +51,15 @@ void Player::onFrame()
     if (GameInfo::isKeyPressed(GameInfo::Key::UP) && _timeToShot <= 0)
     {
         if (_superShots == false)
+        {
             _shutter.shot(0, angle());
+            Engine::soundPlayer().playSound(1, 40);
+        }
         else
+        {
             _shutter.shot(1, angle());
-        Engine::soundPlayer().playSound(1, 5);
+            Engine::soundPlayer().playSound(5, 100);
+        }
         _timeToShot = 0.15;
     }
     if (_timeToShot > 0)

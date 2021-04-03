@@ -74,17 +74,17 @@ void PickUp::onCollide(PhysicalObject* with)
         {
         case Type::Hp:
             player->refillHp();
-            Engine::soundPlayer().playSound(2, 80);
+            Engine::soundPlayer().playSound(2, 100);
             break;
 
         case Type::Life:
             player->addLife();
-            Engine::soundPlayer().playSound(3, 80);
+            Engine::soundPlayer().playSound(3, 100);
             break;
 
         case Type::Shild:
             player->addShield();
-            Engine::soundPlayer().playSound(4, 80);
+            Engine::soundPlayer().playSound(4, 100);
             break;
 
         case Type::SuperShots:

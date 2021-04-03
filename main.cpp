@@ -62,7 +62,8 @@ int main()
                                        "laser_sound.wav",
                                        "additional_hp.wav",
                                        "additional_life.wav",
-                                       "shield.wav"};
+                                       "shield.wav",
+                                       "super_shoots.ogg"};
     for (auto& filename: textures)
         filename = texturesPath + filename;
     for (auto& filename: sounds)
