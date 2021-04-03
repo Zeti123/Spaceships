@@ -16,15 +16,15 @@ PickUp::PickUp(Vector2f position)
         break;
 
     case Type::Life:
-        addTexture(20);
+        addTexture(22);
         break;
 
     case Type::Shild:
-        addTexture(21);
+        addTexture(20);
         break;
 
     case Type::SuperShots:
-        addTexture(22);
+        addTexture(21);
         break;
     }
     texture(0).offsetPosition = Vector2f(-11, -10);
