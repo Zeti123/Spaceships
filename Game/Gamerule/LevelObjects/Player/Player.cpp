@@ -3,6 +3,7 @@
 #include <iostream>
 #include "LevelManager.hpp"
 #include "Engine.hpp"
+#include <algorithm>
 
 Player::Player()
     :Spaceship(_maxHp, _speed), _timeToShot(0),
@@ -145,6 +146,11 @@ void Player::move()
         setPosition(position() - Vector2f(0, trueSpeed) * GameInfo::deltaTime());
     if (GameInfo::isKeyPressed(GameInfo::Key::S))
         setPosition(position() + Vector2f(0, trueSpeed) * GameInfo::deltaTime());
+
+    if (position().x + size().x/2 > GameInfo::resolution().x || position().x < size().x/2)
+        setPosition(Vector2f(std::max(size().x/2, std::min(static_cast<int>(position().x), GameInfo::resolution().x)), position().y));
+    if (position().y + size().y/2 > GameInfo::resolution().y || position().y < size().y/2)
+        setPosition(Vector2f(position().x, std::max(size().y/2, std::min(static_cast<int>(position().y), GameInfo::resolution().y))));
 }
 
 void Player::setActive(bool active)
