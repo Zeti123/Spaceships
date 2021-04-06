@@ -5,19 +5,19 @@
 #include "Engine.hpp"
 
 Player::Player()
-    :Spaceship(100, 150), _timeToShot(0),
+    :Spaceship(_maxHp, _speed), _timeToShot(0),
       _bar(Vector2f(0, GameInfo::resolution().y-12), 26, 25, 27, Vector2i(13, 6), this), _lives(Vector2f(0, GameInfo::resolution().y - 35), this),
       _alive(true), _superShots(0)
 {
     auto func = [](Bullet& a) -> void
     {
         a.setPosition(a.position() + Vector2f(cos(a.angle() - M_PI/2),
-                                              sin(a.angle() - M_PI/2)) * 400 * GameInfo::deltaTime());
+                                              sin(a.angle() - M_PI/2)) * _basicBulletSpeed * GameInfo::deltaTime());
     };
     auto func2 = [](Bullet& a) -> void
     {
         a.setPosition(a.position() + Vector2f(cos(a.angle() - M_PI/2),
-                                  sin(a.angle() - M_PI/2)) * 500 * GameInfo::deltaTime());
+                                  sin(a.angle() - M_PI/2)) * _superBulletSpeed * GameInfo::deltaTime());
         a.setAngle(a.angle() + M_PI);
     };
 
@@ -60,7 +60,7 @@ void Player::onFrame()
             _shutter.shot(1, angle());
             Engine::soundPlayer().playSound(5, 100);
         }
-        _timeToShot = 0.15;
+        _timeToShot = _shootSpeed;
     }
     if (_timeToShot > 0)
         _timeToShot -= GameInfo::deltaTime();
@@ -124,24 +124,27 @@ void Player::lifeLost()
     _superShots = false;
     setPosition(Vector2f(GameInfo::resolution().x / 2, GameInfo::resolution().y - 100));
     setAngle(0);
-    makeUntouchable(3.5);
+    makeUntouchable(_untouchableTime);
 }
 
 void Player::move()
 {
-    if (GameInfo::isKeyPressed(GameInfo::Key::D))
-        setPosition(position() + Vector2f(_speed, 0) * GameInfo::deltaTime());
-    if (GameInfo::isKeyPressed(GameInfo::Key::A))
-        setPosition(position() - Vector2f(_speed, 0) * GameInfo::deltaTime());
-    if (GameInfo::isKeyPressed(GameInfo::Key::W))
-        setPosition(position() - Vector2f(0, _speed) * GameInfo::deltaTime());
-    if (GameInfo::isKeyPressed(GameInfo::Key::S))
-        setPosition(position() + Vector2f(0, _speed) * GameInfo::deltaTime());
-
+    double trueSpeed = _speed;
     if (GameInfo::isKeyPressed(GameInfo::Key::RIGHT))
         setAngle(angle() + M_PI*GameInfo::deltaTime()*2);
     if (GameInfo::isKeyPressed(GameInfo::Key::LEFT))
         setAngle(angle() - M_PI*GameInfo::deltaTime()*2);
+    if (GameInfo::isKeyPressed((GameInfo::Key::LSHIFT)))
+        trueSpeed = _speed/2;
+
+    if (GameInfo::isKeyPressed(GameInfo::Key::D))
+        setPosition(position() + Vector2f(trueSpeed, 0) * GameInfo::deltaTime());
+    if (GameInfo::isKeyPressed(GameInfo::Key::A))
+        setPosition(position() - Vector2f(trueSpeed, 0) * GameInfo::deltaTime());
+    if (GameInfo::isKeyPressed(GameInfo::Key::W))
+        setPosition(position() - Vector2f(0, trueSpeed) * GameInfo::deltaTime());
+    if (GameInfo::isKeyPressed(GameInfo::Key::S))
+        setPosition(position() + Vector2f(0, trueSpeed) * GameInfo::deltaTime());
 }
 
 void Player::setActive(bool active)

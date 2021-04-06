@@ -22,6 +22,15 @@ public:
     void setActive(bool active);
 
 private:
+    static constexpr size_t _maxHp = 100;
+    static constexpr size_t _speed = 150;
+    static constexpr size_t _bulletSpeed = 240;
+    static constexpr double _shootSpeed = 0.15;
+    static constexpr size_t _basicBulletSpeed = 400;
+    static constexpr size_t _superBulletSpeed = 500;
+    static constexpr double _untouchableTime = 5;
+
+private:
     void move();
     double _timeToShot;
     HpBar _bar;
