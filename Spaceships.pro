@@ -4,6 +4,11 @@ CONFIG -= app_bundle
 CONFIG -= qt
 CONFIG += staticlib
 
+install_it.path = $$OUT_PWD/
+install_it.files = $$PWD/Game/Resources/*
+
+INSTALLS += install_it
+
 LIBS += -Wall -Wshadow -Wextra -Wuninitialized -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 QMAKE_CXXFLAGS += -std=c++17
 

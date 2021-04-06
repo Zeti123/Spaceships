@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
     Engine& w = Engine::Instance();
-    std::string texturesPath = "../Spaceships/Game/Resources/Images/";
+    std::string texturesPath = "Images/";
     std::vector<std::string> textures = {"player.png",                       // player                   0 - 3
                                          "player_shield.png",
                                          "player_immortal.png",
@@ -57,7 +57,7 @@ int main()
                                          "music_volume.png",
                                          "sound_volume.png"};
 
-    std::string soundsPath = "../Spaceships/Game/Resources/Sounds/";
+    std::string soundsPath = "Sounds/";
     std::vector<std::string> sounds = {"hit.wav",
                                        "laser_sound.wav",
                                        "additional_hp.wav",
