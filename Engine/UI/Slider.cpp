@@ -1,5 +1,6 @@
 #include "Slider.hpp"
 #include "GameInfo.hpp"
+#include <algorithm>
 
 Slider::Slider(Vector2f position, size_t background, size_t slider, size_t circle, size_t label,
        Vector2f labelOffset, Vector2f sliderOffset, Vector2i size, Vector2i sliderSize, Vector2i ballSize)

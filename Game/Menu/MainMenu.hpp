@@ -4,6 +4,7 @@
 #include "Button.hpp"
 #include "SimpleButton.hpp"
 #include "Slider.hpp"
+#include <array>
 
 class MainMenu
 {

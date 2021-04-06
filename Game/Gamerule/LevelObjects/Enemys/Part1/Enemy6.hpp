@@ -2,6 +2,7 @@
 #define ENEMY6_HPP
 
 #include "Spaceship.hpp"
+#include <array>
 
 class Enemy6: public Spaceship
 {

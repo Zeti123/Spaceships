@@ -2,6 +2,7 @@
 #include "Enemy5.hpp"
 #include <math.h>
 #include "Engine.hpp"
+#include <algorithm>
 
 constexpr std::pair<int, int> Enemy4::distanceRange;
 

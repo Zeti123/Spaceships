@@ -10,8 +10,13 @@
 #include <math.h>
 #include <iostream>
 
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846
+#endif
+
+
 Game::Game()
-    :_level(LevelManager::Instance()), _player(new Player()), _state(State::MENU), _current_music("../Spaceships/Game/Resources/Sounds/main_menu.ogg")
+    :_level(LevelManager::Instance()), _player(new Player()), _state(State::MENU), _current_music("Sounds/main_menu.ogg")
 {
     _menu.openMenu();
 }
@@ -21,7 +26,7 @@ void Game::onFrame()
     if (!Engine::soundPlayer().isMusicPlayed())
                 Engine::Instance().soundPlayer().playMusic(_current_music);
 
-    const std::string musicPath = "../Spaceships/Game/Resources/Sounds/";
+    const std::string musicPath = "Sounds/";
     if (_state == State::MENU)
     {
         if (!_menu.isActive())

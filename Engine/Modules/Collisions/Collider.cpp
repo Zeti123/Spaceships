@@ -1,6 +1,7 @@
 #include "Collider.hpp"
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 
 Collider::Collider(const std::vector<Vector2f>& points, const std::vector<CollisionType>& collisionType,
                    const std::vector<CollisionType>& collideWith)

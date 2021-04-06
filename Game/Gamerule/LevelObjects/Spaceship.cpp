@@ -6,6 +6,11 @@
 #include <iostream>
 #include <math.h>
 
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846
+#endif
+
+
 Spaceship::Spaceship(int maxHp, int speed)
     :PhysicalObject(), _untouchable(0), _maxHp(maxHp), _hp(maxHp), _shield(0), _speed(speed)
 {

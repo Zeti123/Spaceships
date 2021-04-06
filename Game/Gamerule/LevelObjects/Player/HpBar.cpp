@@ -1,4 +1,5 @@
 #include "HpBar.hpp"
+#include <algorithm>
 
 HpBar::HpBar(Vector2f position, size_t emptyBarTexture, size_t fullBarTeture, size_t shieldBarTeture,
              Vector2i fullBarTextureOffset, Spaceship* spaceship)
