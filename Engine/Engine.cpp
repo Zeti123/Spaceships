@@ -229,6 +229,8 @@ void Engine::updateGameInfo()
         mask += 1 << 8;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         mask += 1 << 9;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+        mask += 1 << 10;
 
     GameInfo::_keyStatusMask = mask;
     const auto& pos = _mouse.getPosition(*_window);

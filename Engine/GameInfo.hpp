@@ -19,7 +19,8 @@ public:
         W = 1 << 6,
         S = 1 << 7,
         SPACE = 1 << 8,
-        ESC = 1 << 9
+        ESC = 1 << 9,
+        LSHIFT = 1 << 10
     };
 
     inline static double deltaTime() { return _deltaTime;}
