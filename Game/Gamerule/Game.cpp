@@ -9,6 +9,7 @@
 
 #include <math.h>
 #include <iostream>
+#include <limits>
 
 #ifndef M_PI
     #define M_PI 3.14159265358979323846
@@ -218,12 +219,12 @@ public:
 
     Vector2f operator()(const Spaceship&)
     {
-        size_t index = UINT64_MAX;
+        size_t index = std::numeric_limits<decltype(index)>::max();
         for (size_t i = 0; i < _ships.size(); i++)
             if (_num == _ships[i])
                 index = i;
 
-        if (index == UINT64_MAX)
+        if (index == std::numeric_limits<decltype(index)>::max())
         {
             index = _ships.size();
             _ships.push_back(_num);
