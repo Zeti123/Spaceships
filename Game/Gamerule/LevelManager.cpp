@@ -20,6 +20,7 @@ void LevelManager::loadLevel(const LevelInfo& levelInfo)
 
     _currentLevel = levelInfo;
     _active = true;
+    resume();
     _duration = 0;
 }
 
@@ -105,6 +106,7 @@ void LevelManager::nextPart()
 void LevelManager::endLevel()
 {
     _active = false;
+    _currentLevel.clear();
     for (auto object : _activeObjects)
         delete object;
     _activeObjects.clear();

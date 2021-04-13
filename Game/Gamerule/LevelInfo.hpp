@@ -20,6 +20,7 @@ public:
     void addSpaceship(const SpaceshipInfo& spinfo);
     void addNewPart(double duration);
     void nextPart();
+    void clear();
 
     double partDuration() const;
     size_t partsNumber() const;

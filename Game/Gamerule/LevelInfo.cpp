@@ -47,6 +47,19 @@ void LevelInfo::nextPart()
     _shipNum = 0;
 }
 
+void LevelInfo::clear()
+{
+    for (size_t i = _partNum; i < _parts.size(); i++)
+    {
+        ILevelObject* ilo = nullptr;
+        while ((ilo = nextShipIf(1E308)) != nullptr)
+        {
+            delete ilo;
+        }
+        nextPart();
+    }
+}
+
 double LevelInfo::partDuration() const
 {
     return _parts[_partNum].duration();
