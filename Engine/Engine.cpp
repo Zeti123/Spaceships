@@ -7,7 +7,7 @@
 Engine* Engine::_instance = nullptr;
 
 Engine::Engine()
-    :_window(new sf::RenderWindow(sf::VideoMode(1280, 720), "Game")), _renderer(), _timeRate(1)
+    :_window(new sf::RenderWindow(sf::VideoMode(1280, 720), "Game", sf::Style::Fullscreen)), _renderer(), _timeRate(1)
 {
     _window->setFramerateLimit(240);
     GameInfo::_deltaTime = 1.0/240;
@@ -160,7 +160,7 @@ void Engine::checkCollisions()
 void Engine::updateUI()
 {
     const auto& objects = UIObject::getObjects();
-    const auto& mousePos = _mouse.getPosition(*_window);
+    const auto& mousePos = GameInfo::mousePosition();
     for (size_t i = 0; i < objects.size(); i++)
     {
         auto& obj = objects[i].first;
@@ -235,7 +235,8 @@ void Engine::updateGameInfo()
     GameInfo::_keyStatusMask = mask;
     const auto& pos = _mouse.getPosition(*_window);
     GameInfo::_deltaTime = 1.0/240 * _timeRate;
-    GameInfo::_mousePosition = Vector2i(pos.x, pos.y);
+    const auto size = Vector2i(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
+    GameInfo::_mousePosition = Vector2i(pos.x * 1280 / size.x, pos.y * 720 / size.y);
 
     _time=_clock.getElapsedTime();
     static int licznik = 0;
