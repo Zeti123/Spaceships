@@ -9,12 +9,17 @@
 class MainMenu
 {
 public:
+    enum class Action
+    {
+        NONE,
+        LOAD_LEVEL,
+        RESUME,
+        BACK_TO_MENU,
+    };
     void openMenu();
-    void closeMenu();
     void openOptions();
-    void closeOptions();
     void openLevelsMenu();
-    void closeLevelsMenu();
+    void openPauseMenu();
 
     void exitGame();
 
@@ -22,8 +27,14 @@ public:
     void musicVolume(float volume);
     void soundVolume(float volume);
 
-    bool isActive() const;
     size_t loadedLevel() const;
+    Action nextAction() const;
+
+private:
+    void closeMenu();
+    void closeOptions();
+    void closeLevelsMenu();
+    void closePauseMenu();
 
 private:
     // menu
@@ -39,10 +50,14 @@ private:
     // levels menu
     std::array<SimpleButton*, 3> _levels;
 
+    // pause menu
+    SimpleButton* _resume;
+    SimpleButton* _backToMenu;
+
     //general use
     SimpleButton* _back;
-    bool _active;
     size_t _loadedLevel;
+    Action _nextAction;
 };
 
 #endif // MAINMENU_H

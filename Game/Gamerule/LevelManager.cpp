@@ -71,6 +71,16 @@ void LevelManager::pause()
     if (_active == false)
         throw "cannot pause when active = false";
     Engine::Instance().setTimeRate(0);
+
+    GameObject* obj;
+    for (auto o: _activeObjects)
+        if ((obj = dynamic_cast<GameObject*>(o)) != nullptr)
+            obj->setActive(false);
+
+    Player* player = dynamic_cast<Player*>(Engine::Instance().findObjectById("player"));
+    if (player == nullptr)
+        throw "other object is marked as player";
+    player->setActive(false);
 }
 
 void LevelManager::resume()
@@ -78,6 +88,16 @@ void LevelManager::resume()
     if (_active == false)
         throw "cannot resume when active = false";
     Engine::Instance().setTimeRate(1);
+
+    GameObject* obj;
+    for (auto o: _activeObjects)
+        if ((obj = dynamic_cast<GameObject*>(o)) != nullptr)
+            obj->setActive(true);
+
+    Player* player = dynamic_cast<Player*>(Engine::Instance().findObjectById("player"));
+    if (player == nullptr)
+        throw "other object is marked as player";
+    player->setActive(true);
 }
 
 bool LevelManager::isActive() const

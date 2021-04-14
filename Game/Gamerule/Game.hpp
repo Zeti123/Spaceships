@@ -22,11 +22,14 @@ public:
     void loadLevel3();
 
 private:
+    void endGame();
+
+private:
+    static const std::string musicPath;
     MainMenu _menu;
     LevelManager& _level;
     Player* _player;
     State _state;
     std::string _current_music;
 };
-
 #endif // GAME_HPP

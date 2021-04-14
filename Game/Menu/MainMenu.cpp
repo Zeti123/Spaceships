@@ -17,7 +17,7 @@ void MainMenu::openMenu()
     _exit->setCallFunction  (std::bind(&MainMenu::exitGame, this));
     _start->setId("button");
 
-    _active = true;
+    _nextAction = Action::NONE;
 }
 
 void MainMenu::closeMenu()
@@ -54,7 +54,7 @@ void MainMenu::openOptions()
     _soundVolume->setId("sound");
     _back->setId("back");
 
-    _active = true;
+    _nextAction = Action::NONE;
 
 }
 
@@ -73,14 +73,15 @@ void MainMenu::openLevelsMenu()
     for (size_t i = 0; i < _levels.size(); i++)
     {
         _levels[i] = new SimpleButton(Vector2f(startPointX + (300 + offset) * i, 300), 34 + i, Vector2i(300, 90));
-        _levels[i]->setCallFunction([this, i](){ _loadedLevel = i; _active = false; closeLevelsMenu(); });
+        _levels[i]->setCallFunction([this, i](){ _loadedLevel = i; _nextAction = Action::LOAD_LEVEL; closeLevelsMenu();});
         _levels[i]->setActive(true);
 
-        _active = true;
     }
     _back = new SimpleButton(Vector2f(0, GameInfo::resolution().y - 45), 39, Vector2i(150, 45));
     _back->setCallFunction([this](){ closeLevelsMenu(); openMenu(); });
     _back->setActive(true);
+
+    _nextAction = Action::NONE;
 }
 
 void MainMenu::closeLevelsMenu()
@@ -89,6 +90,27 @@ void MainMenu::closeLevelsMenu()
         delete b;
 
     delete _back;
+}
+
+void MainMenu::openPauseMenu()
+{
+    Vector2i size(400, 120);
+    _resume = new SimpleButton(Vector2f(GameInfo::resolution().x/2 - size.x/2, GameInfo::resolution().y/2 - 250), 46, size);
+    _backToMenu = new SimpleButton(Vector2f(GameInfo::resolution().x/2 - size.x/2, GameInfo::resolution().y/2), 47, size);
+
+    _resume->setCallFunction([this](){ _nextAction = Action::RESUME; closePauseMenu(); });
+    _backToMenu->setCallFunction([this](){ _nextAction = Action::BACK_TO_MENU; closePauseMenu();});
+
+    _resume->setActive(true);
+    _backToMenu->setActive(true);
+
+    _nextAction = Action::NONE;
+}
+
+void MainMenu::closePauseMenu()
+{
+    delete _resume;
+    delete _backToMenu;
 }
 
 void MainMenu::exitGame()
@@ -112,12 +134,12 @@ void MainMenu::soundVolume(float volume)
     Engine::Instance().soundPlayer().setSoundVolume(volume);
 }
 
-bool MainMenu::isActive() const
-{
-    return _active;
-}
-
 size_t MainMenu::loadedLevel() const
 {
     return _loadedLevel;
+}
+
+MainMenu::Action MainMenu::nextAction() const
+{
+    return _nextAction;
 }

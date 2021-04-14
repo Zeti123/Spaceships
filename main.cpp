@@ -38,7 +38,7 @@ int main()
                                          "hp_bar_center.png",
                                          "hp_bar_empty.png",
                                          "hp_bar_shield.png",
-                                         "button_normal.png",                // menu buttons, bars       28 - 45
+                                         "button_normal.png",                // menu buttons, bars       28 - 47
                                          "button_dragged.png",
                                          "button_clicked.png",
                                          "label_start.png",
@@ -55,7 +55,9 @@ int main()
                                          "progressbar_ball.png",
                                          "master_volume.png",
                                          "music_volume.png",
-                                         "sound_volume.png"};
+                                         "sound_volume.png",
+                                         "button_resume.png",
+                                         "button_backtomenu.png"};
 
     std::string soundsPath = "Sounds/";
     std::vector<std::string> sounds = {"hit.wav",

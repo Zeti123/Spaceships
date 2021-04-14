@@ -15,6 +15,7 @@
     #define M_PI 3.14159265358979323846
 #endif
 
+const std::string Game::musicPath = "Sounds/";
 
 Game::Game()
     :_level(LevelManager::Instance()), _player(new Player()), _state(State::MENU), _current_music("Sounds/main_menu.ogg")
@@ -24,13 +25,12 @@ Game::Game()
 
 void Game::onFrame()
 {
-    if (!Engine::soundPlayer().isMusicPlayed())
-                Engine::Instance().soundPlayer().playMusic(_current_music);
-
-    const std::string musicPath = "Sounds/";
     if (_state == State::MENU)
     {
-        if (!_menu.isActive())
+        if (!Engine::soundPlayer().isMusicPlayed())
+                    Engine::Instance().soundPlayer().playMusic(_current_music);
+
+        if (_menu.nextAction() == MainMenu::Action::LOAD_LEVEL)
         {
             _state = State::GAME_PLAY;
             Engine::soundPlayer().stopMusic();
@@ -53,18 +53,19 @@ void Game::onFrame()
     }
     else if (_state == State::GAME_PLAY)
     {
+        if (!Engine::soundPlayer().isMusicPlayed())
+                    Engine::Instance().soundPlayer().playMusic(_current_music);
+
         if (!_level.isActive())
         {
-            Engine::soundPlayer().stopMusic();
-            _current_music = musicPath + "main_menu.ogg";
-            _state = State::MENU;
-            _player->setActive(false);
-            _menu.openLevelsMenu();
+            endGame();
             return;
         }
-        if (GameInfo::isKeyPressed(GameInfo::Key::SPACE))
+        if (GameInfo::isKeyPressed(GameInfo::Key::ESC))
         {
             _level.pause();
+            _menu.openPauseMenu();
+            Engine::soundPlayer().stopMusic();
             _state = State::GAME_PAUSED;
             return;
         }
@@ -72,10 +73,16 @@ void Game::onFrame()
     }
     else if (_state == State::GAME_PAUSED)
     {
-        if (GameInfo::isKeyPressed(GameInfo::Key::SPACE))
+        if (_menu.nextAction() == MainMenu::Action::RESUME)
         {
             _level.resume();
             _state = State::GAME_PLAY;
+            Engine::Instance().soundPlayer().resumeMusic();
+            return;
+        }
+        if (_menu.nextAction() == MainMenu::Action::BACK_TO_MENU)
+        {
+            endGame();
             return;
         }
         _level.work();
@@ -329,5 +336,15 @@ void Game::loadLevel3()
 
 
     _level.loadLevel(level1);
+}
+
+void Game::endGame()
+{
+    Engine::soundPlayer().stopMusic();
+    _current_music = musicPath + "main_menu.ogg";
+    _state = State::MENU;
+    _player->setActive(false);
+    _level.endLevel();
+    _menu.openLevelsMenu();
 }
 
