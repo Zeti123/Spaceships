@@ -57,7 +57,8 @@ int main()
                                          "music_volume.png",
                                          "sound_volume.png",
                                          "button_resume.png",
-                                         "button_backtomenu.png"};
+                                         "button_backtomenu.png",
+                                         "bullet_v.png"};                    // new bullet 48
 
     std::string soundsPath = "Sounds/";
     std::vector<std::string> sounds = {"hit.wav",

@@ -18,7 +18,7 @@ public:
 
 public:
     Bullet(std::function<void(Bullet& b)> nextStep,
-           const Vector2f& pos, double angle, double lifeTime, Type type);
+           const Vector2f& pos, double angle, double lifeTime, Type type, size_t texture = 6);
     void onFrame() override;
     void onCollide(PhysicalObject *with) override;
     void kill() override;

@@ -8,14 +8,18 @@ Enemy3::Enemy3(std::function<Vector2f(const Enemy3& obj)> moving)
 {
     auto func = [](Bullet& a) -> void
     {
-        a.setPosition(a.position() + Vector2f(cos(a.angle() - M_PI/2), sin(a.angle() - M_PI/2)) *
-               (240.0 * GameInfo::deltaTime() * (a.currentLifeTime()+0.5 - static_cast<int>(a.currentLifeTime()+0.5))));
+        auto newPosition = Vector2f((a.position() + Vector2f(cos(a.angle() - M_PI/2), sin(a.angle() - M_PI/2)) *
+                                     (240.0 * GameInfo::deltaTime() * (a.currentLifeTime()+0.5 - static_cast<int>(a.currentLifeTime()+0.5)))));
+
+        double angle = atan2(newPosition.y - a.position().y, newPosition.x - a.position().x);
+        a.setAngle(angle);
+        a.setPosition(newPosition);
     };
 
     setTexture(11);
     setId("enemy");
     setTextureSize(Vector2i(50, 50));
-    _shutter.addBulletType(func, 100, Bullet::Type::Red);
+    _shutter.addBulletType(func, 100, Bullet::Type::Red, 48);
 
     addCollider({Vector2f(0, -20), Vector2f(15, -15), Vector2f(20, 0), Vector2f(15, 15),
                  Vector2f(0, 20), Vector2f(-15, 15), Vector2f(-20, 0), Vector2f(-15, -15)},

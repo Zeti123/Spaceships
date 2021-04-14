@@ -10,7 +10,7 @@ class BulletShutter
 {
 public:
     void addBulletType(std::function<void(Bullet& b)> func,
-                       double lifeTime, Bullet::Type col);
+                       double lifeTime, Bullet::Type col, size_t texture = 6);
     void shot(size_t bulletType, double angle);
     void shotSimple(double angle, double speed, double lifeTime, Bullet::Type type);
     void setPosition(Vector2f position);
@@ -21,6 +21,7 @@ private:
         std::function<void(Bullet& b)> func;
         double lifeTime;
         Bullet::Type color;
+        size_t texture;
     };
     Vector2f _position;
     std::vector<BulletType> _bulletTypes;

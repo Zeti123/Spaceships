@@ -2,15 +2,15 @@
 #include "LevelManager.hpp"
 
 void BulletShutter::addBulletType(std::function<void(Bullet& b)> func,
-                                 double lifeTime, Bullet::Type color)
+                                 double lifeTime, Bullet::Type color, size_t texture)
 {
-    _bulletTypes.push_back({func, lifeTime, color});
+    _bulletTypes.push_back({func, lifeTime, color, texture});
 }
 
 void BulletShutter::shot(size_t bulletType, double angle)
 {
     Bullet* bullet = new Bullet(_bulletTypes[bulletType].func, _position,
-                                angle, _bulletTypes[bulletType].lifeTime, _bulletTypes[bulletType].color);
+                                angle, _bulletTypes[bulletType].lifeTime, _bulletTypes[bulletType].color, _bulletTypes[bulletType].texture);
     LevelManager::Instance().addObject(bullet);
     bullet->setActive(true);
 }

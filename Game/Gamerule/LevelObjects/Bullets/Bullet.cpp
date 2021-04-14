@@ -7,7 +7,7 @@
 #include "Spaceship.hpp"
 
 Bullet::Bullet(std::function<void(Bullet& b)> nextStep,
-               const Vector2f& pos, double angle, double lifeTime, Type type)
+               const Vector2f& pos, double angle, double lifeTime, Type type, size_t tex)
     : PhysicalObject(Position2D(pos, Vector2i(10, 10))), _nextStep(nextStep), _angle(angle), _lifeTime(lifeTime),
       _currentLifeTime(0), _type(type), _alive(true)
 {
@@ -40,7 +40,7 @@ Bullet::Bullet(std::function<void(Bullet& b)> nextStep,
         texture(0).offsetPosition = Vector2f(-8.5, -8.5);
         break;
     case Type::Red:
-        addTexture(6);
+        addTexture(tex);
         texture(0).offsetPosition = Vector2f(-5, -5);
         break;
     case Type::Rocket:
