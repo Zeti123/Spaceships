@@ -30,6 +30,7 @@ private:
     LevelInfo _currentLevel;
     std::vector<ILevelObject*> _activeObjects;
     bool _active;
+    bool _levelEdned;
     double _duration;
 };
 

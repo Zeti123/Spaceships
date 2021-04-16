@@ -64,6 +64,7 @@ SOURCES += \
         Game/Gamerule/LevelObjects/Enemys/Part1/Enemy4.cpp \
         Game/Gamerule/LevelObjects/Enemys/Part1/Enemy5.cpp \
         Game/Gamerule/LevelObjects/Enemys/Part1/Enemy6.cpp \
+        Game/Gamerule/LevelObjects/LevelPassedLabel.cpp \
         Game/Gamerule/LevelObjects/PickUp.cpp \
         Game/Gamerule/LevelObjects/Player/HpBar.cpp \
         Game/Gamerule/LevelObjects/Player/Lives.cpp \
@@ -147,6 +148,7 @@ HEADERS += \
     Game/Gamerule/LevelObjects/Enemys/Part1/Enemy4.hpp \
     Game/Gamerule/LevelObjects/Enemys/Part1/Enemy5.hpp \
     Game/Gamerule/LevelObjects/Enemys/Part1/Enemy6.hpp \
+    Game/Gamerule/LevelObjects/LevelPassedLabel.hpp \
     Game/Gamerule/LevelObjects/PickUp.hpp \
     Game/Gamerule/LevelObjects/Player/HpBar.hpp \
     Game/Gamerule/LevelObjects/Player/Lives.hpp \

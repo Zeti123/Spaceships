@@ -1,5 +1,6 @@
 #include "LevelManager.hpp"
 #include "Engine.hpp"
+#include "LevelPassedLabel.hpp"
 
 LevelManager* LevelManager::_level = nullptr;
 
@@ -15,6 +16,8 @@ LevelManager::LevelManager()
 
 void LevelManager::loadLevel(const LevelInfo& levelInfo)
 {
+    _levelEdned = false;
+
     if (_activeObjects.size())
         throw "there are still active objects";
 
@@ -60,7 +63,13 @@ void LevelManager::work()
     if (_currentLevel.endOfLevel())
     {
         if (!blocked)
-            endLevel();
+        {
+            if (!_levelEdned)
+                addObject(new LevelPassedLabel());
+            else
+                endLevel();
+            _levelEdned = true;
+        }
     }
     else if ((_currentLevel.endOfPart() && !blocked) || _currentLevel.partDuration() < _duration)
         nextPart();
