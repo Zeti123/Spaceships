@@ -7,7 +7,8 @@
 Engine* Engine::_instance = nullptr;
 
 Engine::Engine()
-    :_window(new sf::RenderWindow(sf::VideoMode(1280, 720), "Game", sf::Style::Fullscreen)), _renderer(), _timeRate(1)
+    :_window(new sf::RenderWindow(sf::VideoMode(1280, 720), "Game", sf::Style::Fullscreen)), _renderer(),
+     _screenSize(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), _fullscreenMode(true), _timeRate(1)
 {
     _window->setFramerateLimit(240);
     GameInfo::_deltaTime = 1.0/240;
@@ -87,6 +88,22 @@ bool Engine::nextFrame()
 void Engine::setTimeRate(double timeRate)
 {
     _timeRate = timeRate;
+}
+
+void Engine::switchFullscreenMode(bool fullscreenMode)
+{
+    delete _window;
+    _fullscreenMode = fullscreenMode;
+    if (fullscreenMode)
+        _window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Game", sf::Style::Fullscreen);
+    else
+        _window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Game");
+    _window->setFramerateLimit(240);
+}
+
+bool Engine::fullscreenMode() const
+{
+    return _fullscreenMode;
 }
 
 void Engine::exit()
@@ -209,35 +226,25 @@ void Engine::updateUI()
 void Engine::updateGameInfo()
 {
     int mask = 0;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        mask += 1 << 0;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        mask += 1 << 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        mask += 1 << 2;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        mask += 1 << 3;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        mask += 1 << 4;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        mask += 1 << 5;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        mask += 1 << 6;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        mask += 1 << 7;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        mask += 1 << 8;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-        mask += 1 << 9;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-        mask += 1 << 10;
+    mask += sf::Keyboard::isKeyPressed(sf::Keyboard::Right) << 0;
+    mask += sf::Keyboard::isKeyPressed(sf::Keyboard::Left) << 1;
+    mask += sf::Keyboard::isKeyPressed(sf::Keyboard::Up) << 2;
+    mask += sf::Keyboard::isKeyPressed(sf::Keyboard::Down) << 3;
+    mask += sf::Keyboard::isKeyPressed(sf::Keyboard::D) << 4;
+    mask += sf::Keyboard::isKeyPressed(sf::Keyboard::A) << 5;
+    mask += sf::Keyboard::isKeyPressed(sf::Keyboard::W) << 6;
+    mask += sf::Keyboard::isKeyPressed(sf::Keyboard::S) << 7;
+    mask += sf::Keyboard::isKeyPressed(sf::Keyboard::Space) << 8;
+    mask += sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) << 9;
+    mask += sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) << 10;
 
     GameInfo::_keyStatusMask = mask;
     const auto& pos = _mouse.getPosition(*_window);
     GameInfo::_deltaTime = 1.0/240 * _timeRate;
-    const auto size = Vector2i(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
-    GameInfo::_mousePosition = Vector2i(pos.x * 1280 / size.x, pos.y * 720 / size.y);
-
+    if (fullscreenMode())
+        GameInfo::_mousePosition = Vector2i(pos.x * 1280 / _screenSize.x, pos.y * 720 / _screenSize.y);
+    else
+        GameInfo::_mousePosition = Vector2i(pos.x, pos.y);
     _time=_clock.getElapsedTime();
     static int licznik = 0;
     licznik++;

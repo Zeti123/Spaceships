@@ -23,6 +23,8 @@ public:
     GameObject* findObjectById(const std::string& id);
     bool nextFrame();
     void setTimeRate(double timeRate);
+    void switchFullscreenMode(bool fullscreenMode);
+    bool fullscreenMode() const;
     void exit();
 
 private:
@@ -40,6 +42,8 @@ private:
     sf::Time _time;
     Renderer _renderer;
     SoundPlayer _player;
+    Vector2i _screenSize; // usend in fullscreen mode
+    bool _fullscreenMode;
     double _timeRate;
 };
 
