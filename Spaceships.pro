@@ -47,6 +47,7 @@ SOURCES += \
         Engine/Position2D.cpp \
         Engine/UI/Button.cpp \
         Engine/UI/SimpleButton.cpp \
+        Engine/UI/SimpleCheckBox.cpp \
         Engine/UI/Slider.cpp \
         Engine/Vector2f.cpp \
         Engine/Vector2i.cpp \
@@ -128,6 +129,7 @@ HEADERS += \
     Engine/Position2D.hpp \
     Engine/UI/Button.hpp \
     Engine/UI/SimpleButton.hpp \
+    Engine/UI/SimpleCheckBox.hpp \
     Engine/UI/Slider.hpp \
     Engine/Vector2f.hpp \
     Engine/Vector2i.hpp \
