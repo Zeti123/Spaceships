@@ -3,6 +3,7 @@
 
 #include "Button.hpp"
 #include "SimpleButton.hpp"
+#include "SimpleCheckBox.hpp"
 #include "Slider.hpp"
 #include <array>
 
@@ -46,6 +47,7 @@ private:
     Slider* _masterVolume;
     Slider* _musicVolume;
     Slider* _soundVolume;
+    SimpleCheckBox* _fullscreen;
 
     // levels menu
     std::array<SimpleButton*, 3> _levels;
