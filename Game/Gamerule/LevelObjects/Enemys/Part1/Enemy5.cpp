@@ -4,7 +4,7 @@
 
 Enemy5::Enemy5(std::function<Vector2f(const Enemy5& obj)> moving)
     :Spaceship(_maxHp, _speed), _aliveChildrenNumber(0), _child{nullptr, nullptr, nullptr, nullptr},
-     _respawnTimer(0), _shotTimer(0), _moving(moving)
+     _respawnTimer(0), _currentLifeTime(0), _shotTimer(0), _moving(moving)
 {
     setTexture(13);
     setId("enemy");
@@ -19,7 +19,7 @@ void Enemy5::onFrame()
 {
     _currentLifeTime += GameInfo::deltaTime();
     Vector2f nextPos = _moving(*this);
-    if (nextPos.x != position().x && nextPos.y != position().y)
+    if (nextPos.x != position().x || nextPos.y != position().y)
     {
         float movingAngle = atan2(nextPos.y - position().y, nextPos.x - position().x);
         setAngle(movingAngle);
