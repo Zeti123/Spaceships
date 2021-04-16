@@ -38,7 +38,7 @@ void Slider::onMouseClick()
 {
     Vector2i pos = GameInfo::mousePosition();
     float newValue = (pos.x - position().x - _sliderOffset.x) / _sliderSize.x;
-    if (pos.y >= position().y + _sliderOffset.y && pos.y <= position().y + _sliderOffset.y + _sliderSize.y)
+    if (pos.y >= position().y + _sliderOffset.y - _ballSize.y/2 && pos.y <= position().y + _sliderOffset.y + _ballSize.y/2)
     {
         float oldValue = _value;
         _value = std::max(0.f, std::min(newValue, 1.f));
