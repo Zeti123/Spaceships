@@ -3,6 +3,7 @@
 #include <iostream>
 #include "LevelManager.hpp"
 #include "Engine.hpp"
+#include "LevelEndLabel.hpp"
 #include <algorithm>
 
 Player::Player()
@@ -102,7 +103,8 @@ void Player::onCollide(PhysicalObject* with)
 void Player::kill()
 {
     _alive = false;
-    LevelManager::Instance().endLevel();
+    setActive(false);
+    LevelManager::Instance().addObject(new LevelEndLabel(false));
 }
 
 bool Player::isAlive()
@@ -155,7 +157,8 @@ void Player::move()
 
 void Player::setActive(bool active)
 {
-    _alive = true;
+    if (active)
+        _alive = true;
     GameObject::setActive(active);
     _bar.setActive(active);
     _lives.setActive(active);

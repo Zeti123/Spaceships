@@ -1,6 +1,6 @@
 #include "LevelManager.hpp"
 #include "Engine.hpp"
-#include "LevelPassedLabel.hpp"
+#include "LevelEndLabel.hpp"
 
 LevelManager* LevelManager::_level = nullptr;
 
@@ -16,8 +16,6 @@ LevelManager::LevelManager()
 
 void LevelManager::loadLevel(const LevelInfo& levelInfo)
 {
-    _levelEdned = false;
-
     if (_activeObjects.size())
         throw "there are still active objects";
 
@@ -38,12 +36,15 @@ void LevelManager::work()
 {
     if (_active == false)
         throw "cannot work when active = false";
+
     bool blocked = false;
     for (size_t i = 0; i < _activeObjects.size(); i++)
     {
         if (!_activeObjects[i]->isAlive())
         {
             _activeObjects[i]->onDestroy();
+            if (_active == false)
+                return;
             delete _activeObjects[i];
             std::swap(_activeObjects[i], _activeObjects.back());
             _activeObjects.pop_back();
@@ -63,13 +64,7 @@ void LevelManager::work()
     if (_currentLevel.endOfLevel())
     {
         if (!blocked)
-        {
-            if (!_levelEdned)
-                addObject(new LevelPassedLabel());
-            else
-                endLevel();
-            _levelEdned = true;
-        }
+            addObject(new LevelEndLabel(true));
     }
     else if ((_currentLevel.endOfPart() && !blocked) || _currentLevel.partDuration() < _duration)
         nextPart();
@@ -79,6 +74,7 @@ void LevelManager::pause()
 {
     if (_active == false)
         throw "cannot pause when active = false";
+
     Engine::Instance().setTimeRate(0);
 
     GameObject* obj;

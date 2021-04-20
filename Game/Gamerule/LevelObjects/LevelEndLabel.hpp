@@ -4,10 +4,10 @@
 #include "GameObject.hpp"
 #include "ILevelObject.hpp"
 
-class LevelPassedLabel: public GameObject, public ILevelObject
+class LevelEndLabel: public GameObject, public ILevelObject
 {
 public:
-    LevelPassedLabel();
+    LevelEndLabel(bool passed);
     void onFrame() final;
     void kill() final;
     bool isAlive() final;
@@ -16,6 +16,7 @@ public:
 
 private:
     double _timeToDeath;
+    bool _passed;
 };
 
 #endif // LEVELPASSEDLABEL_HPP

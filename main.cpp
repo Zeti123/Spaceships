@@ -61,7 +61,10 @@ int main()
                                          "bullet_v.png",                     // new bullet               48
                                          "fullscreen_checkbox.png",          // fullscreen checkbox      49 - 50
                                          "fullscreen_checkbox_check.png",
-                                         "level_passed_label.png"};          // level passed label       51
+                                         "level_passed_label1.png",          // level end labels         51 - 54
+                                         "level_passed_label2.png",
+                                         "game_over_label1.png",
+                                         "game_over_label2.png"};
 
     std::string soundsPath = "Sounds/";
     std::vector<std::string> sounds = {"hit.wav",
