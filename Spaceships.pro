@@ -67,7 +67,7 @@ SOURCES += \
         Game/Gamerule/LevelObjects/LevelEndLabel.cpp \
         Game/Gamerule/LevelObjects/PickUp.cpp \
         Game/Gamerule/LevelObjects/Player/HpBar.cpp \
-        Game/Gamerule/LevelObjects/Player/Lives.cpp \
+        Game/Gamerule/LevelObjects/Player/Lifes.cpp \
         Game/Gamerule/LevelObjects/Player/Player.cpp \
         Game/Gamerule/LevelObjects/Spaceship.cpp \
         Game/Menu/MainMenu.cpp \
@@ -151,7 +151,7 @@ HEADERS += \
     Game/Gamerule/LevelObjects/LevelEndLabel.hpp \
     Game/Gamerule/LevelObjects/PickUp.hpp \
     Game/Gamerule/LevelObjects/Player/HpBar.hpp \
-    Game/Gamerule/LevelObjects/Player/Lives.hpp \
+    Game/Gamerule/LevelObjects/Player/Lifes.hpp \
     Game/Gamerule/LevelObjects/Player/Player.hpp \
     Game/Gamerule/LevelObjects/Spaceship.hpp \
     Game/Menu/MainMenu.hpp

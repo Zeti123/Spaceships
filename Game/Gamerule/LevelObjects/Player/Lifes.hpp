@@ -5,17 +5,17 @@ class Player;
 #include "Vector2f.hpp"
 #include "GameObject.hpp"
 
-class Lives : public GameObject
+class Lifes : public GameObject
 {
 public:
-    Lives(Vector2f position, Player* spaceship);
+    Lifes(Vector2f position, Player* spaceship);
     void onFrame() override;
     void addLife();
     void reset();
 
 private:
     Player* _parent;
-    size_t _lives;
+    size_t _lifes;
 };
 
 #endif // LIFES_HPP

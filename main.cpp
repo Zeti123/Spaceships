@@ -33,7 +33,7 @@ int main()
                                          "pickup_shield.png",
                                          "pickup_supershot.png",
                                          "pickup_life.png",
-                                         "lives.png",                        // player hp bar            23 - 27
+                                         "lifes.png",                        // player hp bar            23 - 27
                                          "heart.png",
                                          "hp_bar_center.png",
                                          "hp_bar_empty.png",

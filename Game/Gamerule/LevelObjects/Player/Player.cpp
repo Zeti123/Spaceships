@@ -8,7 +8,7 @@
 
 Player::Player()
     :Spaceship(_maxHp, _speed), _timeToShot(0),
-      _bar(Vector2f(0, GameInfo::resolution().y-12), 26, 25, 27, Vector2i(13, 6), this), _lives(Vector2f(0, GameInfo::resolution().y - 35), this),
+      _bar(Vector2f(0, GameInfo::resolution().y-12), 26, 25, 27, Vector2i(13, 6), this), _lifes(Vector2f(0, GameInfo::resolution().y - 35), this),
       _alive(true), _superShots(0)
 {
     auto func = [](Bullet& a) -> void
@@ -33,7 +33,7 @@ Player::Player()
                  Vector2f(-17, 17), Vector2f(-7, 7), Vector2f(-19, 4), Vector2f(-10, 0), Vector2f(-4, -9)},
     {Collider::CollisionType::A}, {Collider::CollisionType::B});
     _bar.setActive(false);
-    _lives.setActive(false);
+    _lifes.setActive(false);
 }
 
 void Player::reset()
@@ -41,7 +41,7 @@ void Player::reset()
     setPosition(Vector2f(GameInfo::resolution().x/2, GameInfo::resolution().y*2/3));
     setAngle(0);
     _hp = _maxHp;
-    _lives.reset();
+    _lifes.reset();
     _shield = 0;
     _superShots = false;
 }
@@ -114,7 +114,7 @@ bool Player::isAlive()
 
 void Player::addLife()
 {
-    _lives.addLife();
+    _lifes.addLife();
 }
 
 void Player::superShots()
@@ -161,5 +161,5 @@ void Player::setActive(bool active)
         _alive = true;
     GameObject::setActive(active);
     _bar.setActive(active);
-    _lives.setActive(active);
+    _lifes.setActive(active);
 }

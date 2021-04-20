@@ -3,7 +3,7 @@
 
 #include "Spaceship.hpp"
 #include "HpBar.hpp"
-#include "Lives.hpp"
+#include "Lifes.hpp"
 #include "SoundPlayer.hpp"
 
 class Player : public Spaceship
@@ -34,7 +34,7 @@ private:
     void move();
     double _timeToShot;
     HpBar _bar;
-    Lives _lives;
+    Lifes _lifes;
     bool _alive;
     bool _superShots;
 };
