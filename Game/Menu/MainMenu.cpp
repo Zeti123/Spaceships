@@ -33,7 +33,7 @@ void MainMenu::openOptions()
     _masterVolume = new Slider(Vector2f(posx, 50), 40, 41, 42, 43, Vector2f(5, 5), Vector2f(72, 100), Vector2i(500, 150), Vector2i(356, 12), Vector2i(44, 44));
     _musicVolume  = new Slider(Vector2f(posx, 240), 40, 41, 42, 44, Vector2f(5, 5), Vector2f(72, 100), Vector2i(500, 150), Vector2i(356, 12), Vector2i(44, 44));
     _soundVolume  = new Slider(Vector2f(posx, 430), 40, 41, 42, 45, Vector2f(5, 5), Vector2f(72, 100), Vector2i(500, 150), Vector2i(356, 12), Vector2i(44, 44));
-    _fullscreen   = new SimpleCheckBox(Vector2f(posx + 125, 600), 49, Vector2i(250, 75), 50, Vector2f(172, 15));
+    _fullscreen   = new SimpleCheckBox(Vector2f(posx + 125, 600), 49, Vector2i(250, 75), 50, Vector2f(188, 15));
     _back         = new SimpleButton(Vector2f(0, GameInfo::resolution().y - 45), 39, Vector2i(150, 45));
 
     _masterVolume->setCallFunction(std::bind(&MainMenu::masterVolume, this, std::placeholders::_1));
