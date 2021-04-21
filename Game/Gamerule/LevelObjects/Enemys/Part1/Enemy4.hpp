@@ -17,11 +17,11 @@ public:
     void deadHost();
 
 private:
-    static constexpr size_t _maxHp = 40;
-    static constexpr size_t _speed = 300;
+    static constexpr size_t _maxHp = 30;
+    static constexpr size_t _speed = 250;
     static constexpr double _shotSpeed = 2;
     static constexpr std::pair<int, int> distanceRange = {200, 400};
-    static constexpr size_t _bulletSpeed = 250;
+    static constexpr size_t _bulletSpeed = 240;
 
     void nextPoint();
     Player& _player;

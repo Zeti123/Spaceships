@@ -56,7 +56,8 @@ void Enemy4::onDestroy()
 
 void Enemy4::nextPoint()
 {
-    double angle = (rand() % 1000)/(1000/2/M_PI);
+    double prevAngle = atan2(position().y - _player.position().y, position().x - _player.position().x);
+    double angle = ((rand() % 1000)/1000.0 - 0.5) * 2 + prevAngle;
     size_t dist = (rand() % (distanceRange.second - distanceRange.first)) + distanceRange.first;
     _nextPoint = Vector2f(cos(angle), sin(angle)) * dist + _player.position();
     _nextPoint.x = std::max(std::min(static_cast<int>(_nextPoint.x), GameInfo::resolution().x), 18);
