@@ -2,7 +2,7 @@
 #include "Button.hpp"
 #include "Engine.hpp"
 
-void MainMenu::openMenu()
+void MainMenu::openMenu(const GameState& gameState)
 {
     _start = new Button(Vector2f(180, 219), 28, 29, 30, 31, Vector2f(47, 70), Vector2i(232, 282));
     _option = new Button(Vector2f(524, 219), 28, 29, 30, 32, Vector2f(28, 70), Vector2i(232, 282));
@@ -12,8 +12,8 @@ void MainMenu::openMenu()
     _option->setActive(true);
     _exit->setActive(true);
 
-    _start->setCallFunction ([this](){ closeMenu(); openLevelsMenu(); });
-    _option->setCallFunction([this](){ closeMenu(); openOptions(); });
+    _start->setCallFunction ([this, &gameState](){ closeMenu(); openLevelsMenu(gameState); });
+    _option->setCallFunction([this, &gameState](){ closeMenu(); openOptions(gameState); });
     _exit->setCallFunction  (std::bind(&MainMenu::exitGame, this));
     _start->setId("button");
 
@@ -27,7 +27,7 @@ void MainMenu::closeMenu()
     delete _exit;
 }
 
-void MainMenu::openOptions()
+void MainMenu::openOptions(const GameState& gameState)
 {
     int posx = (GameInfo::resolution().x - 500) / 2;
     _masterVolume = new Slider(Vector2f(posx, 50), 40, 41, 42, 43, Vector2f(5, 5), Vector2f(72, 100), Vector2i(500, 150), Vector2i(356, 12), Vector2i(44, 44));
@@ -40,7 +40,7 @@ void MainMenu::openOptions()
     _musicVolume->setCallFunction(std::bind(&MainMenu::musicVolume, this, std::placeholders::_1));
     _soundVolume->setCallFunction(std::bind(&MainMenu::soundVolume, this, std::placeholders::_1));
     _fullscreen->setCallFunction([](bool checked){ Engine::Instance().switchFullscreenMode(checked);});
-    _back->setCallFunction([this](){ closeOptions(); openMenu(); });
+    _back->setCallFunction([this, &gameState](){ closeOptions(); openMenu(gameState); });
 
     _masterVolume->setActive(true);
     _musicVolume->setActive(true);
@@ -66,19 +66,20 @@ void MainMenu::closeOptions()
     delete _back;
 }
 
-void MainMenu::openLevelsMenu()
+void MainMenu::openLevelsMenu(const GameState& gameState)
 {
     int offset = 50;
     int startPointX = (GameInfo::resolution().x - (300 + offset)*_levels.size()) / 2;
     for (size_t i = 0; i < _levels.size(); i++)
     {
-        _levels[i] = new SimpleButton(Vector2f(startPointX + (300 + offset) * i, 300), 34 + i, Vector2i(300, 90));
+        auto state = gameState.getLevelState(0, i);
+        _levels[i] = new LevelButton(Vector2f(startPointX + (300 + offset) * i, 300), i, state);
         _levels[i]->setCallFunction([this, i](){ _loadedLevel = i; _nextAction = Action::LOAD_LEVEL; closeLevelsMenu();});
         _levels[i]->setActive(true);
 
     }
     _back = new SimpleButton(Vector2f(0, GameInfo::resolution().y - 45), 39, Vector2i(150, 45));
-    _back->setCallFunction([this](){ closeLevelsMenu(); openMenu(); });
+    _back->setCallFunction([this, &gameState](){ closeLevelsMenu(); openMenu(gameState); });
     _back->setActive(true);
 
     _nextAction = Action::NONE;

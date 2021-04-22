@@ -18,9 +18,17 @@
 const std::string Game::musicPath = "Sounds/";
 
 Game::Game()
-    :_level(LevelManager::Instance()), _player(new Player()), _state(State::MENU), _current_music("Sounds/main_menu.ogg")
+    :_level(LevelManager::Instance()), _player(new Player()), _state(State::MENU), _currentMusic("Sounds/main_menu.ogg"), _lastPlayedLevel(0)
 {
-    _menu.openMenu();
+    _menu.openMenu(_gameState);
+    bool success = _gameState.loadFromFile("save.sav");
+    if (!success)
+    {
+        createNewSave();
+        _gameState.saveToFile("save.sav");
+    }
+    else
+        checkSave();
 }
 
 void Game::onFrame()
@@ -28,25 +36,26 @@ void Game::onFrame()
     if (_state == State::MENU)
     {
         if (!Engine::soundPlayer().isMusicPlayed())
-                    Engine::Instance().soundPlayer().playMusic(_current_music);
+                    Engine::Instance().soundPlayer().playMusic(_currentMusic);
 
         if (_menu.nextAction() == MainMenu::Action::LOAD_LEVEL)
         {
             _state = State::GAME_PLAY;
             Engine::soundPlayer().stopMusic();
-            switch (_menu.loadedLevel())
+            _lastPlayedLevel =  _menu.loadedLevel();
+            switch (_lastPlayedLevel)
             {
             case 0:
                 loadLevel1();
-                _current_music = musicPath + "TEN_TIMES_BETTER_THAN_YOU_FOBIA_INSTRUMENTAL.wav";
+                _currentMusic = musicPath + "TEN_TIMES_BETTER_THAN_YOU_FOBIA_INSTRUMENTAL.wav";
                 break;
             case 1:
                 loadLevel2();
-                _current_music = musicPath + "BACK_IN_TIME_FOBIA_INSTRUMENTAL.wav";
+                _currentMusic = musicPath + "BACK_IN_TIME_FOBIA_INSTRUMENTAL.wav";
                 break;
             case 2:;
                 loadLevel3();
-                _current_music = musicPath + "ALKOMECH_FOBIA_INSTRUMENTAL.wav";
+                _currentMusic = musicPath + "ALKOMECH_FOBIA_INSTRUMENTAL.wav";
                 break;
             }
         }
@@ -54,11 +63,22 @@ void Game::onFrame()
     else if (_state == State::GAME_PLAY)
     {
         if (!Engine::soundPlayer().isMusicPlayed())
-                    Engine::Instance().soundPlayer().playMusic(_current_music);
+                    Engine::Instance().soundPlayer().playMusic(_currentMusic);
 
-        if (!_level.isActive())
+        if (_level.getLevelStatus() != LevelManager::LevelStatus::RUNNING)
         {
-            endGame();
+            if (_level.getLevelStatus() == LevelManager::LevelStatus::PASSED)
+            {
+                _gameState.updateLevelState(0, _lastPlayedLevel, {true, true});
+                if (_lastPlayedLevel + 1 < 3)
+                {
+                    auto nextLevelState = _gameState.getLevelState(0, _lastPlayedLevel + 1);
+                    _gameState.updateLevelState(0, _lastPlayedLevel + 1, {true, nextLevelState.passed});
+                }
+                _gameState.saveToFile("save.sav");
+            }
+
+            switchToMenu();
             return;
         }
         if (GameInfo::isKeyPressed(GameInfo::Key::ESC))
@@ -82,7 +102,8 @@ void Game::onFrame()
         }
         if (_menu.nextAction() == MainMenu::Action::BACK_TO_MENU)
         {
-            endGame();
+            _level.endLevel(LevelManager::LevelStatus::NOT_PASSED);
+            switchToMenu();
             return;
         }
         _level.work();
@@ -338,13 +359,26 @@ void Game::loadLevel3()
     _level.loadLevel(level1);
 }
 
-void Game::endGame()
+void Game::switchToMenu()
 {
     Engine::soundPlayer().stopMusic();
-    _current_music = musicPath + "main_menu.ogg";
+    _currentMusic = musicPath + "main_menu.ogg";
     _state = State::MENU;
     _player->setActive(false);
-    _level.endLevel();
-    _menu.openLevelsMenu();
+    _menu.openLevelsMenu(_gameState);
 }
 
+void Game::createNewSave()
+{
+    _gameState.createNewGame({3});
+}
+
+// checks if save is up to date and contains info about all levels if not function repers this
+void Game::checkSave()
+{
+    if (_gameState.getGroupsNum() < 1)
+    {
+        _gameState.createNewGame({3});
+        _gameState.saveToFile("save.sav");
+    }
+}

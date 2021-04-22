@@ -23,6 +23,6 @@ void LevelEndLabel::kill() { _timeToDeath = 0; }
 bool LevelEndLabel::isAlive() { return _timeToDeath > 0; }
 void LevelEndLabel::onDestroy()
 {
-    LevelManager::Instance().endLevel();
+    LevelManager::Instance().endLevel(_passed ? LevelManager::LevelStatus::PASSED : LevelManager::LevelStatus::NOT_PASSED);
 }
 bool LevelEndLabel::blockLevel() { return true; }

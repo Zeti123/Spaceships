@@ -64,7 +64,9 @@ int main()
                                          "level_passed_label1.png",          // level end labels         51 - 54
                                          "level_passed_label2.png",
                                          "game_over_label1.png",
-                                         "game_over_label2.png"};
+                                         "game_over_label2.png",
+                                         "locked_label.png",                 // level passed, not passed markers 55 - 56
+                                         "level_button_passed.png"};
 
     std::string soundsPath = "Sounds/";
     std::vector<std::string> sounds = {"hit.wav",

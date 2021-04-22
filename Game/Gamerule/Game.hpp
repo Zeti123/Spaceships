@@ -6,6 +6,7 @@
 #include "MainClass.hpp"
 #include "LevelManager.hpp"
 #include "MainMenu.hpp"
+#include "GameState.hpp"
 
 class Game : public MainClass
 {
@@ -22,7 +23,10 @@ public:
     void loadLevel3();
 
 private:
-    void endGame();
+    void switchToMenu();
+    void createNewSave();
+    // checks if save is up to date and contains info about all levels if not function repers this
+    void checkSave();
 
 private:
     static const std::string musicPath;
@@ -30,6 +34,8 @@ private:
     LevelManager& _level;
     Player* _player;
     State _state;
-    std::string _current_music;
+    GameState _gameState;
+    std::string _currentMusic;
+    size_t _lastPlayedLevel;
 };
 #endif // GAME_HPP

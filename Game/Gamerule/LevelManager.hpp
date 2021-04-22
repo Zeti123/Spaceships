@@ -8,6 +8,14 @@
 class LevelManager
 {
 public:
+    enum class LevelStatus
+    {
+        RUNNING,
+        PASSED,
+        NOT_PASSED
+    };
+
+public:
     static LevelManager& Instance();
 
     void loadLevel(const LevelInfo& levelInfo);
@@ -15,9 +23,11 @@ public:
     void work();
     void pause();
     void resume();
-    void endLevel();
 
-    bool isActive() const;
+    // must be called whenever the level ends
+    void endLevel(LevelStatus endStatus);
+
+    LevelStatus getLevelStatus() const;
     size_t partsNumber() const;
     double duration() const;
 
@@ -29,7 +39,7 @@ private:
 
     LevelInfo _currentLevel;
     std::vector<ILevelObject*> _activeObjects;
-    bool _active;
+    LevelStatus _status;
     double _duration;
 };
 

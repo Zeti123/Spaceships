@@ -12,7 +12,7 @@ LevelManager& LevelManager::Instance()
 }
 
 LevelManager::LevelManager()
-    :_active(false), _duration(0){}
+    :_status(LevelStatus::NOT_PASSED), _duration(0){}
 
 void LevelManager::loadLevel(const LevelInfo& levelInfo)
 {
@@ -20,22 +20,22 @@ void LevelManager::loadLevel(const LevelInfo& levelInfo)
         throw "there are still active objects";
 
     _currentLevel = levelInfo;
-    _active = true;
+    _status = LevelStatus::RUNNING;
     resume();
     _duration = 0;
 }
 
 void LevelManager::addObject(ILevelObject* obj)
 {
-    if (_active == false)
-        throw "cannot add object when active = false";
+    if (_status != LevelStatus::RUNNING)
+        throw "cannot add object when level is not running";
     _activeObjects.push_back(obj);
 }
 
 void LevelManager::work()
 {
-    if (_active == false)
-        throw "cannot work when active = false";
+    if (_status != LevelStatus::RUNNING)
+        throw "cannot work when level is not running";
 
     bool blocked = false;
     for (size_t i = 0; i < _activeObjects.size(); i++)
@@ -43,7 +43,7 @@ void LevelManager::work()
         if (!_activeObjects[i]->isAlive())
         {
             _activeObjects[i]->onDestroy();
-            if (_active == false)
+            if (_status != LevelStatus::RUNNING)
                 return;
             delete _activeObjects[i];
             std::swap(_activeObjects[i], _activeObjects.back());
@@ -72,8 +72,8 @@ void LevelManager::work()
 
 void LevelManager::pause()
 {
-    if (_active == false)
-        throw "cannot pause when active = false";
+    if (_status != LevelStatus::RUNNING)
+        throw "cannot pause when level is not running";
 
     Engine::Instance().setTimeRate(0);
 
@@ -90,8 +90,8 @@ void LevelManager::pause()
 
 void LevelManager::resume()
 {
-    if (_active == false)
-        throw "cannot resume when active = false";
+    if (_status != LevelStatus::RUNNING)
+        throw "cannot resume when level is not running";
     Engine::Instance().setTimeRate(1);
 
     GameObject* obj;
@@ -105,9 +105,9 @@ void LevelManager::resume()
     player->setActive(true);
 }
 
-bool LevelManager::isActive() const
+LevelManager::LevelStatus LevelManager::getLevelStatus() const
 {
-    return _active;
+    return _status;
 }
 
 size_t LevelManager::partsNumber() const
@@ -122,15 +122,15 @@ double LevelManager::duration() const
 
 void LevelManager::nextPart()
 {
-    if (_active == false)
-        throw "cannot change part when active = false";
+    if (_status != LevelStatus::RUNNING)
+        throw "cannot change part when level is not running";
     _currentLevel.nextPart();
     _duration = 0;
 }
 
-void LevelManager::endLevel()
+void LevelManager::endLevel(LevelStatus endStatus)
 {
-    _active = false;
+    _status = endStatus;
     _currentLevel.clear();
     for (auto object : _activeObjects)
         delete object;

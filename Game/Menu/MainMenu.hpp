@@ -5,6 +5,7 @@
 #include "SimpleButton.hpp"
 #include "SimpleCheckBox.hpp"
 #include "Slider.hpp"
+#include "LevelButton.hpp"
 #include <array>
 
 class MainMenu
@@ -17,9 +18,9 @@ public:
         RESUME,
         BACK_TO_MENU,
     };
-    void openMenu();
-    void openOptions();
-    void openLevelsMenu();
+    void openMenu(const GameState& gameState);
+    void openOptions(const GameState& gameState);
+    void openLevelsMenu(const GameState& gameState);
     void openPauseMenu();
 
     void exitGame();
@@ -50,7 +51,7 @@ private:
     SimpleCheckBox* _fullscreen;
 
     // levels menu
-    std::array<SimpleButton*, 3> _levels;
+    std::array<LevelButton*, 3> _levels;
 
     // pause menu
     SimpleButton* _resume;
