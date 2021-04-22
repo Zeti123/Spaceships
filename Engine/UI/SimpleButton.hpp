@@ -15,6 +15,10 @@ public:
                  std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> clickedColor = {150, 150, 150, 255});
     void setCallFunction(std::function<void()> call);
 
+    void setNormalColor(std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> color);
+    void setDraggedColor(std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> color);
+    void setClickedColor(std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> color);
+
 private:
     void onStartDrag() final;
     void onDrag() final;
@@ -23,10 +27,6 @@ private:
     void onMouseClick() final;
     void onMouseUp() final;
     void onFrame() override;
-
-    void setNormalColor(std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> color);
-    void setDraggedColor(std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> color);
-    void setClickedColor(std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> color);
 
     std::function <void()> _call;
     size_t _texture;
