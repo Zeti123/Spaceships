@@ -51,7 +51,7 @@ private:
     SimpleCheckBox* _fullscreen;
 
     // levels menu
-    std::array<LevelButton*, 3> _levels;
+    std::vector<LevelButton*> _levels;
 
     // pause menu
     SimpleButton* _resume;

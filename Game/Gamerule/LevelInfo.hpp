@@ -17,11 +17,13 @@ public:
 
 public:
     Spaceship* nextShipIf(double currentTime);
+    void setMusicPath(const std::string& filename);
     void addSpaceship(const SpaceshipInfo& spinfo);
     void addNewPart(double duration);
     void nextPart();
     void clear();
 
+    const std::string& getMusicPath() const;
     double partDuration() const;
     size_t partsNumber() const;
     bool endOfPart() const;
@@ -42,6 +44,7 @@ private:
         double _duration;
     };
 
+    std::string _music;
     std::vector<Part> _parts;
     size_t _shipNum;
     size_t _partNum;

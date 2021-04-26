@@ -70,6 +70,8 @@ SOURCES += \
         Game/Gamerule/LevelObjects/Player/Lifes.cpp \
         Game/Gamerule/LevelObjects/Player/Player.cpp \
         Game/Gamerule/LevelObjects/Spaceship.cpp \
+        Game/Gamerule/Levels.cpp \
+        Game/Gamerule/LevelsGroupInfo.cpp \
         Game/Menu/LevelButton.cpp \
         Game/Menu/MainMenu.cpp \
         main.cpp
@@ -155,5 +157,7 @@ HEADERS += \
     Game/Gamerule/LevelObjects/Player/Lifes.hpp \
     Game/Gamerule/LevelObjects/Player/Player.hpp \
     Game/Gamerule/LevelObjects/Spaceship.hpp \
+    Game/Gamerule/Levels.hpp \
+    Game/Gamerule/LevelsGroupInfo.hpp \
     Game/Menu/LevelButton.hpp \
     Game/Menu/MainMenu.hpp

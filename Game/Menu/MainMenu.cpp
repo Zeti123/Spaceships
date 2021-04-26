@@ -68,12 +68,17 @@ void MainMenu::closeOptions()
 
 void MainMenu::openLevelsMenu(const GameState& gameState)
 {
+    _levels.resize(gameState.getLevelsNumInGroup(0));
+
     int offset = 50;
-    int startPointX = (GameInfo::resolution().x - (300 + offset)*_levels.size()) / 2;
+    int rows = (_levels.size() + 2)/3;
+    int startPointX = (GameInfo::resolution().x - (300 + offset)*3) / 2;
+    int startPointY = ((GameInfo::resolution().y - (90 + offset/2) * rows) / 2);
+
     for (size_t i = 0; i < _levels.size(); i++)
     {
         auto state = gameState.getLevelState(0, i);
-        _levels[i] = new LevelButton(Vector2f(startPointX + (300 + offset) * i, 300), i, state);
+        _levels[i] = new LevelButton(Vector2f(startPointX + (300 + offset) * (i%3), startPointY + (offset/2 + 90)*(i/3)), i, state);
         _levels[i]->setCallFunction([this, i](){ _loadedLevel = i; _nextAction = Action::LOAD_LEVEL; closeLevelsMenu();});
         _levels[i]->setActive(true);
 

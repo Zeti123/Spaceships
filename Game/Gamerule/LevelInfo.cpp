@@ -25,6 +25,11 @@ Spaceship* LevelInfo::nextShipIf(double currentTime)
     return nullptr;
 }
 
+void LevelInfo::setMusicPath(const std::string& filename)
+{
+    _music = filename;
+}
+
 void LevelInfo::addSpaceship(const SpaceshipInfo& spinfo)
 {
     _parts.back().add(spinfo);
@@ -58,6 +63,11 @@ void LevelInfo::clear()
         }
         nextPart();
     }
+}
+
+const std::string& LevelInfo::getMusicPath() const
+{
+    return _music;
 }
 
 double LevelInfo::partDuration() const

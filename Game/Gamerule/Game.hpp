@@ -18,9 +18,7 @@ class Game : public MainClass
 public:
     Game();
     void onFrame() override;
-    void loadLevel1();
-    void loadLevel2();
-    void loadLevel3();
+    void loadAndStartLevel(size_t group, size_t level);
 
 private:
     void switchToMenu();
