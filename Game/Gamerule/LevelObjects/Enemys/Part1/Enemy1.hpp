@@ -13,9 +13,9 @@ public:
 
 private:
     static constexpr size_t _maxHp = 100;
-    static constexpr size_t _speed = 50;
-    static constexpr double _shotSpeed = 2;
-    static constexpr double _bulletSpeed = 100;
+    static constexpr size_t _speed = 100;
+    static constexpr double _shotSpeed = 0.75;
+    static constexpr double _bulletSpeed = 240;
 
     Vector2f _direction;
     double _shotTimer;
