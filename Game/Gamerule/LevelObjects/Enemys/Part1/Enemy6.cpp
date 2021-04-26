@@ -51,7 +51,7 @@ void Enemy6::onFrame()
     }
 
     Vector2f nextPos = _moving(*this);
-    if (nextPos.x != position().x && nextPos.y != position().y)
+    if (nextPos.x != position().x || nextPos.y != position().y)
     {
         float movingAngle = atan2(nextPos.y - position().y, nextPos.x - position().x);
         setAngle(movingAngle);
