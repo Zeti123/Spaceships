@@ -36,6 +36,7 @@ public:
     void updateLevelState(size_t part, size_t level, LevelState newState);
     void unlockGroup(size_t part);
     void addNewGroup(size_t levelsNum);
+    void addLevelToGroup(size_t groupNum);
 
 private:
     std::vector<LevelGroupState> _gameState;

@@ -128,3 +128,8 @@ void GameState::addNewGroup(size_t levelsNum)
     for (size_t i = 0; i < levelsNum; i++)
         elem.levels[i] = {false, false};
 }
+
+void GameState::addLevelToGroup(size_t groupNum)
+{
+    _gameState[groupNum].levels.push_back({false, false});
+}
