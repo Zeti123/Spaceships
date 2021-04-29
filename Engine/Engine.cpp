@@ -181,7 +181,7 @@ void Engine::updateUI()
     for (size_t i = 0; i < objects.size(); i++)
     {
         auto& obj = objects[i].first;
-        if (!obj->isActive()) continue;
+        if (objects[i].second == false || !obj->isActive()) continue;
         if (objects[i].second == true &&
             mousePos.x > obj->position().x && mousePos.x < obj->position().x + obj->size().x &&
             mousePos.y > obj->position().y && mousePos.y < obj->position().y + obj->size().y)
