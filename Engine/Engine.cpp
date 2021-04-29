@@ -10,6 +10,8 @@ Engine::Engine()
     :_window(new sf::RenderWindow(sf::VideoMode(1280, 720), "Game", sf::Style::Fullscreen)), _renderer(),
      _screenSize(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), _fullscreenMode(true), _timeRate(1)
 {
+    _window->setSize(sf::Vector2u(_screenSize.x, _screenSize.y));
+
     _window->setFramerateLimit(240);
     GameInfo::_deltaTime = 1.0/240;
     GameInfo::_resolution = Vector2i(1280, 720);
