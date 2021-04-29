@@ -7,6 +7,9 @@
 #include "LevelManager.hpp"
 #include "Engine.hpp"
 #include "Levels.hpp"
+#include "MainView.hpp"
+#include "PauseView.hpp"
+#include "LevelsView.hpp"
 
 #include <math.h>
 #include <iostream>
@@ -19,9 +22,9 @@
 const std::string Game::musicPath = "Sounds/";
 
 Game::Game()
-    :_level(LevelManager::Instance()), _player(new Player()), _state(State::MENU), _currentMusic("Sounds/main_menu.ogg"), _lastPlayedLevel(0)
+    :_level(LevelManager::Instance()), _player(new Player()), _state(State::MENU), _currentMusic("Sounds/main_menu.ogg"), _lastPlayedLevel({})
 {
-    _menu.openMenu(_gameState);
+    _menu.changeView(new MainView(&_gameState));
     bool success = _gameState.loadFromFile("save.sav");
     if (!success)
     {
@@ -39,13 +42,18 @@ void Game::onFrame()
         if (!Engine::soundPlayer().isMusicPlayed())
                     Engine::Instance().soundPlayer().playMusic(_currentMusic);
 
-        if (_menu.nextAction() == MainMenu::Action::LOAD_LEVEL)
+        if (_menu.getAction() == MainMenu::Action::LOAD_LEVEL)
         {
             _state = State::GAME_PLAY;
             Engine::soundPlayer().stopMusic();
-            _lastPlayedLevel =  _menu.loadedLevel();
-            loadAndStartLevel(0, _lastPlayedLevel);
+            _lastPlayedLevel =  _menu.getLoadedLevel();
+            loadAndStartLevel(_lastPlayedLevel.stage, _lastPlayedLevel.level);
         }
+
+        if (_menu.getAction() == MainMenu::Action::END_GAME)
+            Engine::Instance().exit();
+
+        _menu.update();
     }
     else if (_state == State::GAME_PLAY)
     {
@@ -56,11 +64,11 @@ void Game::onFrame()
         {
             if (_level.getLevelStatus() == LevelManager::LevelStatus::PASSED)
             {
-                _gameState.updateLevelState(0, _lastPlayedLevel, {true, true});
-                if (_lastPlayedLevel + 1 < 3)
+                _gameState.updateLevelState(_lastPlayedLevel.stage, _lastPlayedLevel.level, {true, true});
+                if (_lastPlayedLevel.level + 1 < _gameState.getLevelsNumInGroup(_lastPlayedLevel.stage))
                 {
-                    auto nextLevelState = _gameState.getLevelState(0, _lastPlayedLevel + 1);
-                    _gameState.updateLevelState(0, _lastPlayedLevel + 1, {true, nextLevelState.passed});
+                    auto nextLevelState = _gameState.getLevelState(_lastPlayedLevel.stage, _lastPlayedLevel.level + 1);
+                    _gameState.updateLevelState(_lastPlayedLevel.stage, _lastPlayedLevel.level + 1, {true, nextLevelState.passed});
                 }
                 _gameState.saveToFile("save.sav");
             }
@@ -71,7 +79,7 @@ void Game::onFrame()
         if (GameInfo::isKeyPressed(GameInfo::Key::ESC))
         {
             _level.pause();
-            _menu.openPauseMenu();
+            _menu.changeView(new PauseView());
             Engine::soundPlayer().stopMusic();
             _state = State::GAME_PAUSED;
             return;
@@ -80,19 +88,22 @@ void Game::onFrame()
     }
     else if (_state == State::GAME_PAUSED)
     {
-        if (_menu.nextAction() == MainMenu::Action::RESUME)
+        if (_menu.getAction() == MainMenu::Action::RESUME)
         {
             _level.resume();
             _state = State::GAME_PLAY;
             Engine::Instance().soundPlayer().resumeMusic();
+            _menu.update();
             return;
         }
-        if (_menu.nextAction() == MainMenu::Action::BACK_TO_MENU)
+        if (_menu.getAction() == MainMenu::Action::BACK_TO_MENU)
         {
             _level.endLevel(LevelManager::LevelStatus::NOT_PASSED);
             switchToMenu();
+            _menu.update();
             return;
         }
+        _menu.update();
         _level.work();
     }
 }
@@ -114,7 +125,7 @@ void Game::switchToMenu()
     _currentMusic = musicPath + "main_menu.ogg";
     _state = State::MENU;
     _player->setActive(false);
-    _menu.openLevelsMenu(_gameState);
+    _menu.changeView(new LevelsView(&_gameState, _lastPlayedLevel.stage));
 }
 
 void Game::createNewSave()

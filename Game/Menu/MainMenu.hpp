@@ -6,6 +6,7 @@
 #include "SimpleCheckBox.hpp"
 #include "Slider.hpp"
 #include "LevelButton.hpp"
+#include "IMenuView.hpp"
 #include <array>
 
 class MainMenu
@@ -17,50 +18,31 @@ public:
         LOAD_LEVEL,
         RESUME,
         BACK_TO_MENU,
+        END_GAME
     };
-    void openMenu(const GameState& gameState);
-    void openOptions(const GameState& gameState);
-    void openLevelsMenu(const GameState& gameState);
-    void openPauseMenu();
 
-    void exitGame();
+    struct LoadedLevel
+    {
+        size_t stage;
+        size_t level;
+    };
 
-    void masterVolume(float volume);
-    void musicVolume(float volume);
-    void soundVolume(float volume);
+public:
+    MainMenu();
+    void update();
+    void changeView(IMenuView* newView);
+    void setNextAction(Action action);
+    void setLoadedLevel(LoadedLevel loadedLevel);
+    Action getAction() const;
+    LoadedLevel getLoadedLevel() const;
 
-    size_t loadedLevel() const;
-    Action nextAction() const;
-
-private:
-    void closeMenu();
-    void closeOptions();
-    void closeLevelsMenu();
-    void closePauseMenu();
 
 private:
-    // menu
-    Button* _start;
-    Button* _option;
-    Button* _exit;
-
-    // options
-    Slider* _masterVolume;
-    Slider* _musicVolume;
-    Slider* _soundVolume;
-    SimpleCheckBox* _fullscreen;
-
-    // levels menu
-    std::vector<LevelButton*> _levels;
-
-    // pause menu
-    SimpleButton* _resume;
-    SimpleButton* _backToMenu;
-
-    //general use
-    SimpleButton* _back;
-    size_t _loadedLevel;
+    IMenuView* _currentView;
+    IMenuView* _nextView;
+    LoadedLevel _loadedLevel;
     Action _nextAction;
+    bool _viewChanged;
 };
 
 #endif // MAINMENU_H

@@ -34,6 +34,6 @@ private:
     State _state;
     GameState _gameState;
     std::string _currentMusic;
-    size_t _lastPlayedLevel;
+    MainMenu::LoadedLevel _lastPlayedLevel;
 };
 #endif // GAME_HPP

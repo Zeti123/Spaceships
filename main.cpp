@@ -3,6 +3,7 @@
 #include "Engine.hpp"
 #include "Bullet.hpp"
 #include "Game.hpp"
+#include "MainView.hpp"
 
 using namespace std;
 
@@ -66,7 +67,10 @@ int main()
                                          "game_over_label1.png",
                                          "game_over_label2.png",
                                          "locked_label.png",                 // level passed, not passed markers 55 - 56
-                                         "level_button_passed.png"};
+                                         "level_button_passed.png",
+                                         "stage_1.png",                      // stage buttons                    57 - 59
+                                         "stage_2.png",
+                                         "stage_3.png"};
 
     std::string soundsPath = "Sounds/";
     std::vector<std::string> sounds = {"hit.wav",
@@ -91,5 +95,6 @@ int main()
     {
         cout<<bladsystemy<<endl;
     }
+
     return 0;
 }

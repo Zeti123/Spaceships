@@ -28,6 +28,7 @@ INCLUDEPATH += \
     $$PWD/Game/Gamerule/LevelObjects/Enemys/Part1 \
     $$PWD/Game/Gamerule/LevelObjects/Player \
     $$PWD/Game/Menu \
+    $$PWD/Game/Menu/Views \
     $$PWD/Game/Resources \
     $$PWD/Game/Resources/Images \
     $$PWD/Game/Resources/Sounds \
@@ -74,6 +75,11 @@ SOURCES += \
         Game/Gamerule/LevelsGroupInfo.cpp \
         Game/Menu/LevelButton.cpp \
         Game/Menu/MainMenu.cpp \
+        Game/Menu/Views/LevelsView.cpp \
+        Game/Menu/Views/MainView.cpp \
+        Game/Menu/Views/OptionsView.cpp \
+        Game/Menu/Views/PauseView.cpp \
+        Game/Menu/Views/StagesView.cpp \
         main.cpp
 
 DISTFILES += \
@@ -159,5 +165,11 @@ HEADERS += \
     Game/Gamerule/LevelObjects/Spaceship.hpp \
     Game/Gamerule/Levels.hpp \
     Game/Gamerule/LevelsGroupInfo.hpp \
+    Game/Menu/IMenuView.hpp \
     Game/Menu/LevelButton.hpp \
-    Game/Menu/MainMenu.hpp
+    Game/Menu/MainMenu.hpp \
+    Game/Menu/Views/LevelsView.hpp \
+    Game/Menu/Views/MainView.hpp \
+    Game/Menu/Views/OptionsView.hpp \
+    Game/Menu/Views/PauseView.hpp \
+    Game/Menu/Views/StagesView.hpp
