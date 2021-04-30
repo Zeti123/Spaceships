@@ -12,9 +12,24 @@
 std::vector<LevelsGroupInfo> getLevelsGroupsStructure()
 {
     std::vector<LevelsGroupInfo> lgi;
-    lgi.emplace_back(std::vector<std::function<LevelInfo()>>{loadLevel1_1, loadLevel1_2, loadLevel1_3, loadLevel1_4});
+    // stage 1
+    lgi.emplace_back(std::vector<std::function<LevelInfo()>>{loadLevel1_1, loadLevel1_2, loadLevel1_3, loadLevel1_4, loadLevel1_bonus});
 
     return lgi;
+}
+
+LevelInfo loadLevel1_tutorial()
+{
+    Vector2f res = GameInfo::resolution().toV2f();
+
+    LevelInfo level;
+    level.setMusicPath("TEN_TIMES_BETTER_THAN_YOU_FOBIA_INSTRUMENTAL.wav");
+
+    level.addNewPart(60);
+
+
+
+    return level;
 }
 
 LevelInfo loadLevel1_1()
@@ -56,8 +71,7 @@ LevelInfo loadLevel1_1()
     level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(res.x/2, -40), new Enemy2([triangle](const Enemy2& obj){ return triangle(obj, 0, 50); })));
     level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(res.x/2, res.y + 40), new Enemy2([triangle, res](const Enemy2& obj){ return triangle(obj, 16, res.y - 50); })));
 
-
-return level;
+    return level;
 }
 
 LevelInfo loadLevel1_2()
@@ -154,7 +168,93 @@ LevelInfo loadLevel1_2()
     return level;
 }
 
+//
 LevelInfo loadLevel1_3()
+{
+    Vector2f res = GameInfo::resolution().toV2f();
+
+    auto waves = [res](const Enemy6& obj, double offset) -> Vector2f
+    {
+        double time = obj.currentLifeTime() * M_PI / 15 + offset;
+        return Vector2f(cos(time) * 500, sin(time*10) * 150) + Vector2f(res.x/2, res.y/2);
+    };
+
+    auto spiral = [res](const Enemy3& obj, double offset) -> Vector2f
+    {
+        double time = obj.currentLifeTime();
+        double time2 = time - (std::floor(time/(8*M_PI)))*8*M_PI;
+        double radius = (time2 <= 4*M_PI) ? (-25/M_PI)*time2 + 100 : ((25/M_PI)*time2 - 100);
+        return Vector2f(cos(time + offset), sin(time + offset)) * radius + Vector2f(res.x/2, res.y/2);
+    };
+
+    auto arc = [res](const Enemy2& obj, bool left)
+    {
+        double time = obj.currentLifeTime()/10;
+        return left ? (Vector2f(std::abs(cos(time)) * (res.x-40), (res.y-40) - std::abs(sin(time)) * (res.y-40))) + Vector2f(20, 20) :
+                      (Vector2f((res.x-40) - std::abs(cos(time)) * (res.x-40), (res.y-40) - std::abs(sin(time)) * (res.y-40))) + Vector2f(20, 20);
+    };
+
+    auto circle = [](const Enemy5& obj, Vector2f center, bool rotationLeft)
+    {
+        double time = obj.currentLifeTime();
+        time = (rotationLeft) ? -time : time + M_PI;
+        return Vector2f(cos(time), sin(time)) * 200 + center;
+    };
+
+    LevelInfo level;
+    level.setMusicPath("TEN_TIMES_BETTER_THAN_YOU_FOBIA_INSTRUMENTAL.wav");
+
+    level.addNewPart(52);
+
+    level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(res.x + 40, res.y/4 - 26), new Enemy1(-M_PI)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(-40, res.y/4 + 26), new Enemy1(0)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(res.x + 40, res.y/4*3 - 26), new Enemy1(-M_PI)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(-40, res.y/4*3 + 26), new Enemy1(0)));
+
+
+    level.addSpaceship(LevelInfo::SpaceshipInfo(4.2, Vector2f(res.x/4 + 23, res.y + 40), new Enemy1(-M_PI/2)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(4.2, Vector2f(res.x/4*3 + 23, res.y + 40), new Enemy1(-M_PI/2)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(4.2, Vector2f(res.x/4 - 23, -40), new Enemy1(M_PI/2)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(4.2, Vector2f(res.x/4*3 - 23, -40), new Enemy1(M_PI/2)));
+
+
+    level.addSpaceship(LevelInfo::SpaceshipInfo(6.4, Vector2f(-40, res.y/4 + 26), new Enemy1(0)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(6.4, Vector2f(res.x + 40, res.y/4 - 26), new Enemy1(-M_PI)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(6.4, Vector2f(-40, res.y/4*3 + 26), new Enemy1(0)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(6.4, Vector2f(res.x + 40, res.y/4*3 - 26), new Enemy1(-M_PI)));
+
+
+    level.addSpaceship(LevelInfo::SpaceshipInfo(7.8, Vector2f(res.x/4 - 23, -40), new Enemy1(M_PI/2)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(7.8, Vector2f(res.x/4*3 - 23, -40), new Enemy1(M_PI/2)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(7.8, Vector2f(res.x/4 + 23, res.y + 40), new Enemy1(-M_PI/2)));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(7.8, Vector2f(res.x/4*3 + 23, res.y + 40), new Enemy1(-M_PI/2)));
+
+
+    level.addSpaceship(LevelInfo::SpaceshipInfo(9.4, Vector2f(-40, res.y/2), new Enemy6([waves](const Enemy6& obj){ return waves(obj, M_PI); })));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(9.4, Vector2f(res.x + 40, res.y/2), new Enemy6([waves](const Enemy6& obj){ return waves(obj, 0); })));
+
+    level.addNewPart(42);
+    level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(-40, res.y/2), new Enemy3([spiral](const Enemy3& obj){ return spiral(obj, 0); })));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(res.x + 40, res.y/2), new Enemy3([spiral](const Enemy3& obj){ return spiral(obj, 2*M_PI/3); })));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(res.x/2, res.y + 40), new Enemy3([spiral](const Enemy3& obj){ return spiral(obj, 4*M_PI/3); })));
+
+    level.addNewPart(20);
+    level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(0, 0), new Enemy2([arc](const Enemy2& obj){ return arc(obj, true); })));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(res.x, 0), new Enemy2([arc](const Enemy2& obj){ return arc(obj, false); })));
+
+    level.addNewPart(20);
+    level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(0, 0), new Enemy5([circle, res](const Enemy5& obj){ return circle(obj, Vector2f(res.x/4, res.y/2), false); })));
+    level.addSpaceship(LevelInfo::SpaceshipInfo(0, Vector2f(res.x, 0), new Enemy5([circle, res](const Enemy5& obj){ return circle(obj, Vector2f(res.x/4*3, res.y/2), true); })));
+
+
+
+
+
+
+    return level;
+}
+
+LevelInfo loadLevel1_4()
 {
     auto func = [](const Enemy2& obj) -> Vector2f
     {
@@ -213,6 +313,20 @@ LevelInfo loadLevel1_3()
     return level;
 }
 
+LevelInfo loadLevel1_5()
+{
+    Vector2f res = GameInfo::resolution().toV2f();
+
+    LevelInfo level;
+    level.setMusicPath("TEN_TIMES_BETTER_THAN_YOU_FOBIA_INSTRUMENTAL.wav");
+
+    level.addNewPart(60);
+
+
+
+    return level;
+}
+
 class Functor_spaceships_circle
 {
 public:
@@ -260,7 +374,7 @@ std::vector<size_t> Functor_spaceships_circle::_ships = {};
 double Functor_spaceships_circle::_time = 0;
 size_t Functor_spaceships_circle::_counter = 0;
 
-LevelInfo loadLevel1_4()
+LevelInfo loadLevel1_bonus()
 {
     auto figure_eight = [](const Enemy6& e, float offset)
     {
