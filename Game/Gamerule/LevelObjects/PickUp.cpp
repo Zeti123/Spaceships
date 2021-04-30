@@ -89,6 +89,7 @@ void PickUp::onCollide(PhysicalObject* with)
 
         case Type::SuperShots:
             player->superShots();
+            Engine::soundPlayer().playSound(6, 100);
             break;
         }
         kill();
