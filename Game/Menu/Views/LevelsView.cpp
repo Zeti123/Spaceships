@@ -1,6 +1,7 @@
 #include "LevelsView.hpp"
 #include "MainMenu.hpp"
 #include "StagesView.hpp"
+#include <algorithm>
 
 LevelsView::LevelsView(const GameState* gameState, size_t stage)
     :_gameStateRef(gameState), _stage(stage) {}
@@ -45,7 +46,7 @@ std::vector<Vector2f> LevelsView::calculateButtonsPosition(size_t buttonsNum, Ve
 
     auto buttonsInRow = [](size_t rowNum, size_t buttonsNum) -> size_t
     {
-        return std::min(buttonsNum - rowNum*3, 3ul);
+        return std::min<size_t>(buttonsNum - rowNum*3, 3ul);
     };
 
     size_t rows = (buttonsNum+2)/3;
