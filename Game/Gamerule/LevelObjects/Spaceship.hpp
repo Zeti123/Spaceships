@@ -28,6 +28,22 @@ public:
     bool isUntouchable() const;
 
 
+protected:
+    class ExplodeAnimation: public GameObject, public ILevelObject
+    {
+    public:
+        ExplodeAnimation(Vector2f position);
+        void onFrame() override;
+        void kill() override;
+        bool isAlive() override;
+        void onDestroy() override;
+        bool blockLevel() override;
+
+    private:
+        static constexpr double _maxLifeTime = 0.3;
+        double _lifeTime;
+    };
+
 
 protected:
     BulletShutter _shutter;

@@ -10,6 +10,7 @@
     #define M_PI 3.14159265358979323846
 #endif
 
+#include "Engine.hpp"
 
 Spaceship::Spaceship(int maxHp, int speed)
     :PhysicalObject(), _untouchable(0), _maxHp(maxHp), _hp(maxHp), _shield(0), _speed(speed)
@@ -19,6 +20,8 @@ Spaceship::Spaceship(int maxHp, int speed)
 
 void Spaceship::onDestroy()
 {
+    Engine::soundPlayer().playSound(7, 100);
+    LevelManager::Instance().addObject(new Spaceship::ExplodeAnimation(position()));
     if (std::rand()%20 < 1)
         LevelManager::Instance().addObject(new PickUp(position()));
 }
@@ -118,10 +121,35 @@ bool Spaceship::isUntouchable() const
     return _untouchable > 0;
 }
 
-/*
-    auto func = [](const Vector2f& prevPos, double angle, double time) -> Vector2f
-    {
-        Vector2f pos;
-        pos = Vector2f(cos(prevPos.x / 20) * 1.1, sin(prevPos.y / 20) * 1.1) + Vector2f(cos(angle)*1.2, 1.2);
-        return (prevPos + pos);
-    };*/
+Spaceship::ExplodeAnimation::ExplodeAnimation(Vector2f position)
+    :_lifeTime(0)
+{
+    addTexture(60);
+    texture(0).textureScale = Vector2f(1.0/5, 1.0);
+    setPosition(position - Vector2f(30, 30));
+    setActive(true);
+}
+
+void Spaceship::ExplodeAnimation::onFrame()
+{
+    _lifeTime += GameInfo::deltaTime();
+    if (_lifeTime < _maxLifeTime)
+        texture(0).textureOffset = Vector2i(60 * static_cast<int>(_lifeTime/(_maxLifeTime/5)), 0);
+}
+
+void Spaceship::ExplodeAnimation::kill()
+{
+    _lifeTime = _maxLifeTime;
+}
+
+bool Spaceship::ExplodeAnimation::isAlive()
+{
+    return _lifeTime < _maxLifeTime;
+}
+
+void Spaceship::ExplodeAnimation::onDestroy() {}
+
+bool Spaceship::ExplodeAnimation::blockLevel()
+{
+    return false;
+}

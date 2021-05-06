@@ -70,7 +70,8 @@ int main()
                                          "level_button_passed.png",
                                          "stage_1.png",                      // stage buttons                    57 - 59
                                          "stage_2.png",
-                                         "stage_3.png"};
+                                         "stage_3.png",
+                                         "explosion_animation.png"};         // explosion animation              60
 
     std::string soundsPath = "Sounds/";
     std::vector<std::string> sounds = {"hit.wav",
@@ -78,7 +79,9 @@ int main()
                                        "additional_hp.wav",
                                        "additional_life.wav",
                                        "shield.wav",
-                                       "super_shoots.ogg"};
+                                       "super_shoots.ogg",
+                                       "supershots.wav",
+                                       "explosion.ogg"};
     for (auto& filename: textures)
         filename = texturesPath + filename;
     for (auto& filename: sounds)
